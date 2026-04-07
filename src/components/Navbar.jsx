@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import './Navbar.css'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -16,10 +17,11 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <a href="/" className="navbar__logo">
-        <div className="navbar__logo-mark">N</div>
-        <span className="navbar__logo-text">
-          nos<span>Vemos</span>
-        </span>
+        <img
+          src="https://res.cloudinary.com/dv22lqbsr/image/upload/v1775533014/nosvemos_logo_transparent_eiiftb.png"
+          alt="nosVemos"
+          className="navbar__logo-img"
+        />
       </a>
 
       <div className="navbar__nav">

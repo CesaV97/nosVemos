@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { templates } from '../data/mockData'
+import './TemplateGallery.css'
 
 const CATEGORIES = [
   { id: 'all', label: 'Todos' },

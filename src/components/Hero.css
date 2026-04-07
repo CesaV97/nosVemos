@@ -1,0 +1,319 @@
+/* --- Hero Section --------------------------------------- */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(150deg, var(--hero-tint) 0%, var(--hero-mid) 40%, var(--white) 70%);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 68px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%; right: -5%;
+  width: 55vw; height: 55vw;
+  max-width: 700px; max-height: 700px;
+  background: radial-gradient(ellipse, rgba(35, 206, 217, 0.07) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 5%; left: -5%;
+  width: 40vw; height: 40vw;
+  max-width: 500px;
+  background: radial-gradient(ellipse, rgba(9, 124, 135, 0.06) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero__inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__content {
+  animation: fadeUp 0.8s var(--ease) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--jade);
+  background: var(--jade-bg);
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.hero__eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--cyan);
+  border-radius: 50%;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5.2vw, 3.8rem);
+  font-weight: 500;
+  color: var(--gray-900);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--jade);
+}
+
+.hero__subtitle {
+  font-size: 1.05rem;
+  color: var(--gray-600);
+  line-height: 1.75;
+  max-width: 420px;
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+
+.hero__ctas {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* --- Card Stack Visual ---------------------------------- */
+.hero__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  animation: fadeUp 0.8s 0.15s var(--ease) both;
+}
+
+.card-stack {
+  position: relative;
+  width: 240px;
+  height: 340px;
+}
+
+.stack-card {
+  position: absolute;
+  width: 240px;
+  height: 340px;
+  border-radius: 16px;
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.stack-card--back {
+  z-index: 1;
+  transform: rotate(-9deg) translate(-28px, 22px);
+  opacity: 0.8;
+}
+
+.stack-card--mid {
+  z-index: 2;
+  transform: rotate(6deg) translate(22px, 12px);
+  opacity: 0.9;
+}
+
+.stack-card--front {
+  z-index: 3;
+  transform: rotate(0deg) translate(0, 0);
+  box-shadow: var(--shadow-float);
+}
+
+.card-stack:hover .stack-card--back {
+  transform: rotate(-13deg) translate(-44px, 32px);
+  opacity: 0.7;
+}
+
+.card-stack:hover .stack-card--mid {
+  transform: rotate(9deg) translate(38px, 18px);
+  opacity: 0.85;
+}
+
+.card-stack:hover .stack-card--front {
+  transform: rotate(0deg) translate(0, -6px);
+  box-shadow: 0 40px 80px rgba(9, 124, 135, 0.18), 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* --- Invitation Cards ----------------------------------- */
+.inv-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.inv-card__corner {
+  position: absolute;
+  font-size: 0.6rem;
+  opacity: 0.28;
+}
+.inv-card__corner--tl { top: 14px; left: 14px; }
+.inv-card__corner--tr { top: 14px; right: 14px; }
+.inv-card__corner--bl { bottom: 14px; left: 14px; }
+.inv-card__corner--br { bottom: 14px; right: 14px; }
+
+.inv-card__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.inv-card__type-badge {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 18px;
+}
+
+.inv-card__ornament { font-size: 1rem; margin: 6px 0; line-height: 1; }
+
+.inv-card__names {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 4px 0;
+}
+
+.inv-card__divider { width: 36px; height: 1px; margin: 10px auto; }
+
+.inv-card__detail {
+  font-size: 0.75rem;
+  font-style: italic;
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.4;
+  margin: 4px 0;
+  opacity: 0.75;
+}
+
+.inv-card__date  { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; margin-top: 12px; }
+.inv-card__place { font-size: 0.6rem; letter-spacing: 0.04em; margin-top: 3px; opacity: 0.5; }
+
+/* Boda Clásica */
+.inv-card--boda-clasica { background: linear-gradient(160deg, #FFFDF5, #FFF9E8); border: 1px solid rgba(200,169,110,0.3); }
+.inv-card--boda-clasica .inv-card__type-badge { background: rgba(200,169,110,0.12); color: #8A6830; border: 1px solid rgba(200,169,110,0.25); }
+.inv-card--boda-clasica .inv-card__ornament { color: #C8A96E; }
+.inv-card--boda-clasica .inv-card__names  { color: #3A2C10; }
+.inv-card--boda-clasica .inv-card__divider { background: linear-gradient(90deg, transparent, #C8A96E, transparent); }
+.inv-card--boda-clasica .inv-card__detail { color: #7A6040; }
+.inv-card--boda-clasica .inv-card__date   { color: #A07840; }
+.inv-card--boda-clasica .inv-card__place  { color: #B09060; }
+.inv-card--boda-clasica .inv-card__corner { color: #C8A96E; }
+
+/* Quinceañera Rosa */
+.inv-card--quince-rosa { background: linear-gradient(160deg, #FFF5F8, #FFEEF4); border: 1px solid rgba(240,120,160,0.25); }
+.inv-card--quince-rosa .inv-card__type-badge { background: rgba(240,96,120,0.08); color: #C04878; border: 1px solid rgba(240,96,120,0.2); }
+.inv-card--quince-rosa .inv-card__ornament { color: #F078A0; }
+.inv-card--quince-rosa .inv-card__names  { color: #3A1028; }
+.inv-card--quince-rosa .inv-card__divider { background: linear-gradient(90deg, transparent, #F078A0, transparent); }
+.inv-card--quince-rosa .inv-card__detail { color: #804060; }
+.inv-card--quince-rosa .inv-card__date   { color: #C04878; }
+.inv-card--quince-rosa .inv-card__place  { color: #D06088; }
+.inv-card--quince-rosa .inv-card__corner { color: #F078A0; }
+
+/* Boda Moderna */
+.inv-card--boda-moderna { background: #FFFFFF; border: 1px solid var(--gray-150); }
+.inv-card--boda-moderna .inv-card__type-badge { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+.inv-card--boda-moderna .inv-card__ornament { color: var(--gray-400); }
+.inv-card--boda-moderna .inv-card__names  { color: var(--gray-900); }
+.inv-card--boda-moderna .inv-card__divider { background: linear-gradient(90deg, transparent, var(--gray-200), transparent); }
+.inv-card--boda-moderna .inv-card__detail { color: var(--gray-600); }
+.inv-card--boda-moderna .inv-card__date   { color: var(--gray-600); }
+.inv-card--boda-moderna .inv-card__place  { color: var(--gray-400); }
+.inv-card--boda-moderna .inv-card__corner { color: var(--gray-200); }
+
+/* Fiesta */
+.inv-card--fiesta { background: linear-gradient(160deg, #FFF8F5, #FFF0E8); border: 1px solid rgba(240,120,80,0.2); }
+.inv-card--fiesta .inv-card__type-badge { background: rgba(240,120,80,0.08); color: #B84820; border: 1px solid rgba(240,120,80,0.18); }
+.inv-card--fiesta .inv-card__ornament { color: #F07850; }
+.inv-card--fiesta .inv-card__names  { color: #3A1808; }
+.inv-card--fiesta .inv-card__divider { background: linear-gradient(90deg, transparent, #F07850, transparent); }
+.inv-card--fiesta .inv-card__detail { color: #804030; }
+.inv-card--fiesta .inv-card__date   { color: #D06040; }
+.inv-card--fiesta .inv-card__place  { color: #E08060; }
+.inv-card--fiesta .inv-card__corner { color: #F07850; }
+
+/* Corporativo */
+.inv-card--corporativo { background: linear-gradient(160deg, #F8FAFC, #EFF4F8); border: 1px solid rgba(100,140,180,0.2); }
+.inv-card--corporativo .inv-card__type-badge { background: rgba(80,120,180,0.07); color: #3A6090; border: 1px solid rgba(80,120,180,0.18); }
+.inv-card--corporativo .inv-card__ornament { color: #6090C0; }
+.inv-card--corporativo .inv-card__names  { color: #182838; }
+.inv-card--corporativo .inv-card__divider { background: linear-gradient(90deg, transparent, #6090C0, transparent); }
+.inv-card--corporativo .inv-card__detail { color: #4A6880; }
+.inv-card--corporativo .inv-card__date   { color: #5080A8; }
+.inv-card--corporativo .inv-card__place  { color: #7090B0; }
+.inv-card--corporativo .inv-card__corner { color: #90B8D8; }
+
+/* Quinceañera Dorada */
+.inv-card--quince-gold { background: linear-gradient(160deg, #FFFCF0, #FFF6D8); border: 1px solid rgba(212,175,55,0.3); }
+.inv-card--quince-gold .inv-card__type-badge { background: rgba(212,175,55,0.1); color: #806010; border: 1px solid rgba(212,175,55,0.25); }
+.inv-card--quince-gold .inv-card__ornament { color: #D4AF37; }
+.inv-card--quince-gold .inv-card__names  { color: #3A2808; }
+.inv-card--quince-gold .inv-card__divider { background: linear-gradient(90deg, transparent, #D4AF37, transparent); }
+.inv-card--quince-gold .inv-card__detail { color: #785020; }
+.inv-card--quince-gold .inv-card__date   { color: #A07830; }
+.inv-card--quince-gold .inv-card__place  { color: #C09848; }
+.inv-card--quince-gold .inv-card__corner { color: #D4AF37; }
+
+/* --- Responsive ----------------------------------------- */
+@media (max-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 52px;
+    padding: 60px 24px 80px;
+    text-align: center;
+  }
+  .hero__eyebrow,
+  .hero__ctas { justify-content: center; }
+  .hero__subtitle { max-width: 100%; }
+  .hero__visual { order: -1; }
+}
+
+@media (max-width: 640px) {
+  .card-stack  { width: 190px; height: 268px; }
+  .stack-card  { width: 190px; height: 268px; }
+}

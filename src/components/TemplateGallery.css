@@ -1,0 +1,185 @@
+.gallery {
+  padding: 112px 0;
+  background: var(--gray-50);
+  position: relative;
+}
+
+.gallery::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gray-150);
+}
+
+/* --- Filters -------------------------------------------- */
+.gallery__filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 52px;
+  background: var(--white);
+  border: 1px solid var(--gray-150);
+  border-radius: 100px;
+  padding: 6px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-btn {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--gray-600);
+  border: none;
+  transition: all 0.22s var(--ease);
+}
+
+.filter-btn:hover  { color: var(--jade); background: var(--jade-bg); }
+.filter-btn.active { background: var(--jade); color: var(--white); }
+
+/* --- Grid ----------------------------------------------- */
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 20px;
+}
+
+/* --- Template Card -------------------------------------- */
+.template-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--gray-150);
+  transition: all 0.32s var(--ease);
+  cursor: pointer;
+  animation: cardReveal 0.4s var(--ease) both;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.template-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+
+/* --- Preview Area --------------------------------------- */
+.template-card__preview {
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.template-card[data-theme="boda-clasica"]         .template-card__preview { background: linear-gradient(135deg, #FFFDF5, #FFF3D0); }
+.template-card[data-theme="boda-bohemio"]         .template-card__preview { background: linear-gradient(135deg, #F5F8F0, #EBF3E8); }
+.template-card[data-theme="boda-moderna"]         .template-card__preview { background: linear-gradient(135deg, #FAFAFA, #F0F0F0); }
+.template-card[data-theme="quince-rosa"]          .template-card__preview { background: linear-gradient(135deg, #FFF5F8, #FFDDE9); }
+.template-card[data-theme="quince-gold"]          .template-card__preview { background: linear-gradient(135deg, #FFFCF0, #FFF0C0); }
+.template-card[data-theme="quince-jardin"]        .template-card__preview { background: linear-gradient(135deg, #F5FBF0, #DFF5D8); }
+.template-card[data-theme="fiesta"]               .template-card__preview { background: linear-gradient(135deg, #FFF8F5, #FFE8D8); }
+.template-card[data-theme="fiesta-jardin"]        .template-card__preview { background: linear-gradient(135deg, #FDF5FF, #F0D8FF); }
+.template-card[data-theme="corporativo"]          .template-card__preview { background: linear-gradient(135deg, #F5F8FC, #DDE8F4); }
+.template-card[data-theme="corporativo-moderno"]  .template-card__preview { background: linear-gradient(135deg, #EBF8F9, #C8EEF0); }
+
+/* --- Mini Invitation ------------------------------------ */
+.mini-inv {
+  width: 95px;
+  height: 132px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 10px;
+  gap: 4px;
+  background: var(--white);
+  box-shadow: 0 8px 28px rgba(9,124,135,0.10), 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.mini-inv__type     { font-size: 0.44rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; opacity: 0.6; }
+.mini-inv__ornament { font-size: 0.85rem; line-height: 1; }
+.mini-inv__title    { font-family: var(--font-display); font-size: 0.68rem; font-weight: 500; line-height: 1.2; }
+.mini-inv__line     { width: 22px; height: 0.5px; margin: 2px auto; }
+.mini-inv__date     { font-size: 0.4rem; letter-spacing: 0.07em; opacity: 0.55; }
+
+/* --- Badges --------------------------------------------- */
+.template-card__badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--gray-150);
+  border-radius: 100px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+}
+
+.template-card__popular {
+  position: absolute;
+  top: 10px; right: 10px;
+  padding: 4px 10px;
+  background: var(--jade);
+  border-radius: 100px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* --- Info ----------------------------------------------- */
+.template-card__info { padding: 18px 20px 20px; }
+
+.template-card__name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-900);
+  margin-bottom: 5px;
+  letter-spacing: -0.01em;
+}
+
+.template-card__desc {
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+
+.template-card__cta {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--jade);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: gap 0.2s;
+}
+
+.template-card:hover .template-card__cta { gap: 9px; }
+
+/* --- Responsive ----------------------------------------- */
+@media (max-width: 640px) {
+  .gallery__filters { padding: 5px; gap: 4px; }
+  .filter-btn { padding: 7px 14px; font-size: 0.78rem; }
+  .gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .template-card__preview { height: 155px; }
+}

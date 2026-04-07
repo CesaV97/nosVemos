@@ -1,4 +1,5 @@
 import { carouselCards } from '../data/mockData'
+import './Hero.css'
 
 function InvitationCard({ card }) {
   return (

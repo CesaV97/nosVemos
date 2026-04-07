@@ -1,3 +1,5 @@
+import './Footer.css'
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -6,8 +8,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="footer__brand-text">
-              <span className="mark">N</span>
-              nosVemos
+              <img
+                src="https://res.cloudinary.com/dv22lqbsr/image/upload/v1775532858/nosvemos_logo_uk8xxw.png"
+                alt="nosVemos"
+                className="footer__logo-img"
+              />
             </div>
             <p className="footer__tagline">
               Invitaciones digitales elegantes para los momentos que merecen ser recordados.

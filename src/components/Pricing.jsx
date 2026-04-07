@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { packages } from '../data/mockData'
+import './Pricing.css'
 
 function FeatureIcon({ included }) {
   return (
