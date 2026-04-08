@@ -1,0 +1,78 @@
+.inv-countdown {
+  padding: 40px 20px;
+  background: linear-gradient(
+    180deg,
+    var(--theme-bg, #FFFFFF) 0%,
+    rgba(var(--theme-accent-rgb, 9, 124, 135), 0.05) 100%
+  );
+  text-align: center;
+}
+
+.inv-countdown__label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--theme-text-secondary, #5A8082);
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.inv-countdown__grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.inv-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.inv-countdown__value {
+  font-family: var(--theme-font-display, Georgia, serif);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--theme-accent, #097C87);
+  line-height: 1;
+}
+
+.inv-countdown__label-unit {
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--theme-text-secondary, #5A8082);
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+}
+
+.inv-countdown__separator {
+  color: var(--theme-text-secondary, #5A8082);
+  font-size: 1.8rem;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.inv-countdown__text {
+  font-size: 1.2rem;
+  color: var(--theme-accent, #097C87);
+  font-weight: 500;
+  padding: 20px 0;
+}
+
+@media (min-width: 640px) {
+  .inv-countdown {
+    padding: 50px 40px;
+  }
+
+  .inv-countdown__value {
+    font-size: 3rem;
+  }
+
+  .inv-countdown__separator {
+    font-size: 2rem;
+    margin: 0 8px;
+  }
+}

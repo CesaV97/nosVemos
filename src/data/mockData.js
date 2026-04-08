@@ -62,6 +62,24 @@ export const carouselCards = [
   },
 ];
 
+// Component metadata for pricing tiles
+export const COMPONENT_METADATA = {
+  hero:      { label: 'Portada del Evento',   icon: '✦', description: 'Nombres, fecha y tagline' },
+  countdown: { label: 'Cuenta Regresiva',     icon: '⏳', description: 'Contador en vivo' },
+  reception: { label: 'Info del Evento',      icon: '📍', description: 'Lugar, hora y Maps' },
+  message:   { label: 'Mensaje Personal',     icon: '💬', description: 'Palabras del anfitrión' },
+  ceremony:  { label: 'Info de Ceremonia',    icon: '⛪', description: 'Iglesia y ubicación' },
+  dresscode: { label: 'Dress Code',           icon: '👗', description: 'Indicaciones de vestimenta' },
+  rsvp:      { label: 'RSVP WhatsApp',        icon: '✅', description: 'Confirmación vía WhatsApp' },
+  gallery:   { label: 'Galería de Fotos',     icon: '🖼', description: 'Hasta 10 fotos' },
+  music:     { label: 'Música de Fondo',      icon: '🎵', description: 'Canción al abrir' },
+};
+
+export const COMPONENT_ORDER = [
+  'hero','countdown','reception','message','ceremony',
+  'dresscode','rsvp','gallery','music'
+];
+
 // Templates for the gallery section
 export const templates = [
   {
@@ -72,6 +90,12 @@ export const templates = [
     theme: 'boda-clasica',
     popular: true,
     description: 'Diseño atemporal con detalles dorados y tipografía serif',
+    previewLines: {
+      names: 'Ana & Carlos',
+      tagline: 'Con la bendición de sus familias',
+      date: '15 · Junio · 2025',
+      place: 'Hacienda San Miguel · CDMX',
+    },
   },
   {
     id: 2,
@@ -81,6 +105,12 @@ export const templates = [
     theme: 'boda-bohemio',
     popular: false,
     description: 'Estilo rústico con elementos florales y naturaleza',
+    previewLines: {
+      names: 'Martina & Lucas',
+      tagline: 'Dos almas encuentran su destino',
+      date: '7 · Septiembre · 2025',
+      place: 'Hacienda El Tulip · Morelos',
+    },
   },
   {
     id: 3,
@@ -90,6 +120,12 @@ export const templates = [
     theme: 'boda-moderna',
     popular: false,
     description: 'Líneas limpias y elegancia contemporánea',
+    previewLines: {
+      names: 'Valeria & Diego',
+      tagline: 'Una nueva historia comienza',
+      date: '8 · Noviembre · 2025',
+      place: 'Museo Jumex · CDMX',
+    },
   },
   {
     id: 4,
@@ -99,6 +135,12 @@ export const templates = [
     theme: 'quince-rosa',
     popular: true,
     description: 'Tonos rosados y detalles de encaje con corona',
+    previewLines: {
+      names: 'Sofía Ramírez',
+      tagline: 'Celebra sus quince años',
+      date: '22 · Marzo · 2025',
+      place: 'Salón Versalles · Guadalajara',
+    },
   },
   {
     id: 5,
@@ -108,6 +150,12 @@ export const templates = [
     theme: 'quince-gold',
     popular: false,
     description: 'Detalles dorados y lujosos sobre fondo profundo',
+    previewLines: {
+      names: 'Isabella Torres',
+      tagline: 'El baile de su vida comienza',
+      date: '5 · Abril · 2025',
+      place: 'Gran Salón Dorado · Puebla',
+    },
   },
   {
     id: 6,
@@ -117,6 +165,12 @@ export const templates = [
     theme: 'quince-jardin',
     popular: false,
     description: 'Flores primaverales y colores pasteles vibrantes',
+    previewLines: {
+      names: 'Emilia Santos',
+      tagline: 'Entre flores y sueños',
+      date: '10 · Mayo · 2025',
+      place: 'Jardín Botánico · Xalapa',
+    },
   },
   {
     id: 7,
@@ -126,6 +180,12 @@ export const templates = [
     theme: 'fiesta',
     popular: false,
     description: 'Vibrante y moderno para celebraciones nocturnas',
+    previewLines: {
+      names: 'Mario Hernández',
+      tagline: 'Celebra 30 años en grande',
+      date: '31 · Octubre · 2025',
+      place: 'Terraza La Paloma · Monterrey',
+    },
   },
   {
     id: 8,
@@ -135,6 +195,12 @@ export const templates = [
     theme: 'fiesta-jardin',
     popular: false,
     description: 'Colores mexicanos y ornamentos tradicionales',
+    previewLines: {
+      names: 'Carla Mendoza',
+      tagline: 'Celebrando con sabor mexicano',
+      date: '16 · Septiembre · 2025',
+      place: 'Hacienda Sonora · Hermosillo',
+    },
   },
   {
     id: 9,
@@ -144,6 +210,12 @@ export const templates = [
     theme: 'corporativo',
     popular: false,
     description: 'Sobriedad y profesionalismo para grandes eventos',
+    previewLines: {
+      names: 'Grupo Nexo',
+      tagline: 'Cena anual de celebración',
+      date: '12 · Diciembre · 2025',
+      place: 'Hotel Camino Real · CDMX',
+    },
   },
   {
     id: 10,
@@ -153,10 +225,16 @@ export const templates = [
     theme: 'corporativo-moderno',
     popular: false,
     description: 'Diseño tech y futurista para empresas de vanguardia',
+    previewLines: {
+      names: 'TechX Summit 2025',
+      tagline: 'Innovación sin límites',
+      date: '20 · Febrero · 2026',
+      place: 'Centro de Convenciones · CDMX',
+    },
   },
 ];
 
-// Pricing packages
+// Pricing packages with component-based structure
 export const packages = [
   {
     id: 'luz',
@@ -164,18 +242,13 @@ export const packages = [
     price: 999,
     tagline: 'Perfecto para comenzar',
     color: 'warm',
-    features: [
-      { text: '1 plantilla incluida', included: true },
-      { text: 'Hasta 100 invitados', included: true },
-      { text: 'Compartir por enlace', included: true },
-      { text: 'Válido por 90 días', included: true },
-      { text: 'RSVP digital', included: false },
-      { text: 'Galería de fotos', included: false },
-      { text: 'Música de fondo', included: false },
-      { text: 'Cuenta regresiva', included: false },
-    ],
     cta: 'Empezar',
     popular: false,
+    guests: '100 invitados',
+    validity: '90 días',
+    templates: '1 plantilla',
+    sharing: 'Enlace directo',
+    includedComponents: ['hero', 'reception', 'message'],
   },
   {
     id: 'celebracion',
@@ -183,18 +256,13 @@ export const packages = [
     price: 1500,
     tagline: 'El favorito de nuestros clientes',
     color: 'gold',
-    features: [
-      { text: '3 plantillas a elegir', included: true },
-      { text: 'Hasta 300 invitados', included: true },
-      { text: 'Link + código QR', included: true },
-      { text: 'Válido por 180 días', included: true },
-      { text: 'RSVP digital', included: true },
-      { text: 'Galería de fotos (10)', included: true },
-      { text: 'Música de fondo', included: false },
-      { text: 'Cuenta regresiva', included: false },
-    ],
     cta: 'Elegir Celebración',
     popular: true,
+    guests: '300 invitados',
+    validity: '180 días',
+    templates: '3 plantillas',
+    sharing: 'Link + código QR',
+    includedComponents: ['hero', 'countdown', 'reception', 'message', 'dresscode', 'rsvp', 'gallery'],
   },
   {
     id: 'gran-evento',
@@ -202,17 +270,12 @@ export const packages = [
     price: 1850,
     tagline: 'Sin límites para tu gran día',
     color: 'dark',
-    features: [
-      { text: 'Todas las plantillas', included: true },
-      { text: 'Invitados ilimitados', included: true },
-      { text: 'Link, QR + WhatsApp', included: true },
-      { text: 'Válido por 365 días', included: true },
-      { text: 'RSVP digital avanzado', included: true },
-      { text: 'Galería de fotos (30)', included: true },
-      { text: 'Música de fondo', included: true },
-      { text: 'Cuenta regresiva animada', included: true },
-    ],
     cta: 'Elegir Gran Evento',
     popular: false,
+    guests: 'Invitados ilimitados',
+    validity: '365 días',
+    templates: 'Todas las plantillas',
+    sharing: 'Link, QR + difusión WhatsApp',
+    includedComponents: ['hero', 'countdown', 'reception', 'message', 'ceremony', 'dresscode', 'rsvp', 'gallery', 'music'],
   },
 ];

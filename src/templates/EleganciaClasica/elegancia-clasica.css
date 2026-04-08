@@ -1,0 +1,17 @@
+[data-template="boda-clasica"] {
+  --theme-bg: #FAF7F2;
+  --theme-accent: #C8A96E;
+  --theme-accent-dark: #A68C57;
+  --theme-accent-rgb: 200, 169, 110;
+  --theme-text-primary: #2C1810;
+  --theme-text-secondary: #6B5344;
+  --theme-font-display: 'Cormorant Garamond', Georgia, serif;
+  --theme-font-body: 'Raleway', 'Segoe UI', sans-serif;
+}
+
+/* Base styles for EleganciaClasica */
+[data-template="boda-clasica"] {
+  background: var(--theme-bg);
+  color: var(--theme-text-primary);
+  font-family: var(--theme-font-body);
+}

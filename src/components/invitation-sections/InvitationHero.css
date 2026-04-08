@@ -1,0 +1,62 @@
+.inv-hero {
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--theme-bg, #FFFFFF);
+  color: var(--theme-text-primary, #0E2426);
+  gap: 16px;
+}
+
+.inv-hero__ornament-top,
+.inv-hero__ornament-bottom {
+  font-size: 1.8rem;
+  color: var(--theme-accent, #097C87);
+}
+
+.inv-hero__names {
+  font-family: var(--theme-font-display, Georgia, serif);
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.inv-hero__tagline {
+  font-family: var(--theme-font-body, system-ui);
+  font-size: 1rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--theme-text-secondary, #5A8082);
+  max-width: 320px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.inv-hero__date {
+  font-family: var(--theme-font-body, system-ui);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+
+@media (min-width: 640px) {
+  .inv-hero {
+    padding: 80px 40px;
+    gap: 20px;
+  }
+
+  .inv-hero__names {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .inv-hero__ornament-top,
+  .inv-hero__ornament-bottom {
+    font-size: 2.2rem;
+  }
+}

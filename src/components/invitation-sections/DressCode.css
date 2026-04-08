@@ -1,0 +1,62 @@
+.inv-dressCode {
+  padding: 40px 20px;
+  background: var(--theme-bg, #FFFFFF);
+  text-align: center;
+}
+
+.inv-dressCode__title {
+  font-family: var(--theme-font-display, Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--theme-text-primary, #0E2426);
+  margin: 0 0 12px;
+}
+
+.inv-dressCode__note {
+  font-family: var(--theme-font-body, system-ui);
+  font-size: 0.95rem;
+  color: var(--theme-text-primary, #0E2426);
+  max-width: 380px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.inv-dressCode__avoid {
+  padding: 16px;
+  background: rgba(var(--theme-accent-rgb, 9, 124, 135), 0.05);
+  border-radius: 8px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.inv-dressCode__avoid-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-accent, #097C87);
+  margin: 0 0 6px;
+}
+
+.inv-dressCode__avoid-colors {
+  font-size: 0.9rem;
+  color: var(--theme-text-primary, #0E2426);
+  margin: 0;
+  font-weight: 400;
+}
+
+@media (min-width: 640px) {
+  .inv-dressCode {
+    padding: 50px 40px;
+  }
+
+  .inv-dressCode__title {
+    font-size: 1.75rem;
+  }
+
+  .inv-dressCode__note {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+}

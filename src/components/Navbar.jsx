@@ -24,12 +24,12 @@ export default function Navbar() {
         />
       </a>
 
-      <div className="navbar__nav">
-        <button className="navbar__link" onClick={() => scrollTo('gallery')}>
-          Plantillas
-        </button>
+      <div className="navbar__nav">        
         <button className="navbar__link" onClick={() => scrollTo('pricing')}>
           Precios
+        </button>
+        <button className="navbar__link" onClick={() => scrollTo('gallery')}>
+          Plantillas
         </button>
         <a href="#" className="navbar__link">Cómo Funciona</a>
         <a href="#" className="navbar__link">Contacto</a>

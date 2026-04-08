@@ -1,0 +1,132 @@
+/* ===========================================================
+   Invitation Themes — CSS variables per templateId
+   Each block sets the theme palette + typography for one
+   template. Section components consume these vars.
+   =========================================================== */
+
+/* --- Boda Clásica — marfil & oro suave ------------------- */
+[data-template="boda-clasica"] {
+  --theme-bg: #FAF7F2;
+  --theme-accent: #C8A96E;
+  --theme-accent-dark: #A68C57;
+  --theme-accent-rgb: 200, 169, 110;
+  --theme-text-primary: #2C1810;
+  --theme-text-secondary: #6B5344;
+  --theme-font-display: 'Cormorant Garamond', Georgia, serif;
+  --theme-font-body: 'Lato', 'Segoe UI', sans-serif;
+}
+
+/* --- Boda Bohemia — verdes y arena ----------------------- */
+[data-template="boda-bohemio"] {
+  --theme-bg: #F4F2EC;
+  --theme-accent: #8DB870;
+  --theme-accent-dark: #5E8A48;
+  --theme-accent-rgb: 141, 184, 112;
+  --theme-text-primary: #2D3A22;
+  --theme-text-secondary: #5C6B4D;
+  --theme-font-display: 'Playfair Display', Georgia, serif;
+  --theme-font-body: 'Quicksand', 'Segoe UI', sans-serif;
+}
+
+/* --- Boda Moderna — minimalismo nupcial ------------------ */
+[data-template="boda-moderna"] {
+  --theme-bg: #FAFAFA;
+  --theme-accent: #A89878;
+  --theme-accent-dark: #7E6F50;
+  --theme-accent-rgb: 168, 152, 120;
+  --theme-text-primary: #1A1A1A;
+  --theme-text-secondary: #555;
+  --theme-font-display: 'Outfit', 'Helvetica Neue', sans-serif;
+  --theme-font-body: 'Outfit', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Quince Rosa — rosa romántica ------------------------ */
+[data-template="quince-rosa"] {
+  --theme-bg: #FFF7FA;
+  --theme-accent: #E8669A;
+  --theme-accent-dark: #C44478;
+  --theme-accent-rgb: 232, 102, 154;
+  --theme-text-primary: #4A1E33;
+  --theme-text-secondary: #8B4A66;
+  --theme-font-display: 'Great Vibes', 'Brush Script MT', cursive;
+  --theme-font-body: 'Lato', 'Segoe UI', sans-serif;
+}
+
+/* --- Quince Gold — oro & glamour ------------------------- */
+[data-template="quince-gold"] {
+  --theme-bg: #FFFCF2;
+  --theme-accent: #D4AF37;
+  --theme-accent-dark: #A8861E;
+  --theme-accent-rgb: 212, 175, 55;
+  --theme-text-primary: #2A1F00;
+  --theme-text-secondary: #6B5A1A;
+  --theme-font-display: 'Cormorant Garamond', Georgia, serif;
+  --theme-font-body: 'Lato', 'Segoe UI', sans-serif;
+}
+
+/* --- Quince Jardín — jardín de ensueño ------------------- */
+[data-template="quince-jardin"] {
+  --theme-bg: #F6FBF2;
+  --theme-accent: #78C878;
+  --theme-accent-dark: #4A9A4A;
+  --theme-accent-rgb: 120, 200, 120;
+  --theme-text-primary: #1F3A1F;
+  --theme-text-secondary: #4D6B4D;
+  --theme-font-display: 'Playfair Display', Georgia, serif;
+  --theme-font-body: 'Quicksand', 'Segoe UI', sans-serif;
+}
+
+/* --- Fiesta — neon nights -------------------------------- */
+[data-template="fiesta"] {
+  --theme-bg: #0F1020;
+  --theme-accent: #60B0F0;
+  --theme-accent-dark: #3A88C8;
+  --theme-accent-rgb: 96, 176, 240;
+  --theme-text-primary: #F5F7FF;
+  --theme-text-secondary: #A8B2D8;
+  --theme-font-display: 'Bebas Neue', Impact, sans-serif;
+  --theme-font-body: 'Outfit', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Fiesta Jardín — jardín mexicano --------------------- */
+[data-template="fiesta-jardin"] {
+  --theme-bg: #FFF8F2;
+  --theme-accent: #D08040;
+  --theme-accent-dark: #A05A20;
+  --theme-accent-rgb: 208, 128, 64;
+  --theme-text-primary: #3A1E0A;
+  --theme-text-secondary: #7A4A20;
+  --theme-font-display: 'Fraunces', Georgia, serif;
+  --theme-font-body: 'Quicksand', 'Segoe UI', sans-serif;
+}
+
+/* --- Corporativo — gala ejecutiva ------------------------ */
+[data-template="corporativo"] {
+  --theme-bg: #F5F8FC;
+  --theme-accent: #3A6FA0;
+  --theme-accent-dark: #1E4B7A;
+  --theme-accent-rgb: 58, 111, 160;
+  --theme-text-primary: #0F2540;
+  --theme-text-secondary: #4A5E78;
+  --theme-font-display: 'Outfit', 'Helvetica Neue', sans-serif;
+  --theme-font-body: 'Outfit', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Corporativo Moderno — innovación 360 ---------------- */
+[data-template="corporativo-moderno"] {
+  --theme-bg: #EBF8F9;
+  --theme-accent: #23CED9;
+  --theme-accent-dark: #0E8A92;
+  --theme-accent-rgb: 35, 206, 217;
+  --theme-text-primary: #062830;
+  --theme-text-secondary: #2C5C66;
+  --theme-font-display: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+  --theme-font-body: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Base styles applied to every themed template -------- */
+[data-template] {
+  background: var(--theme-bg);
+  color: var(--theme-text-primary);
+  font-family: var(--theme-font-body);
+}

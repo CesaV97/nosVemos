@@ -1,0 +1,41 @@
+.inv-message {
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--theme-bg, #FFFFFF);
+}
+
+.inv-message__text {
+  font-family: var(--theme-font-body, system-ui);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--theme-text-primary, #0E2426);
+  max-width: 400px;
+  margin: 0 auto 20px;
+  white-space: pre-line;
+}
+
+.inv-message__signoff {
+  font-family: var(--theme-font-display, Georgia, serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--theme-accent, #097C87);
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .inv-message {
+    padding: 50px 40px;
+  }
+
+  .inv-message__text {
+    font-size: 1.05rem;
+  }
+
+  .inv-message__signoff {
+    font-size: 1.2rem;
+  }
+}

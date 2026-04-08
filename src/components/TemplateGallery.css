@@ -12,174 +12,454 @@
   background: var(--gray-150);
 }
 
-/* --- Filters -------------------------------------------- */
-.gallery__filters {
+/* --- Package Indicator Banner --------------------------- */
+.gallery__package-banner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  background: var(--jade-bg);
+  border: 1px solid rgba(9,124,135,0.2);
+  border-radius: 100px;
+  padding: 10px 20px;
+  margin: 0 auto 36px;
+  font-size: 0.85rem;
+  color: var(--jade-dark);
+  width: fit-content;
   flex-wrap: wrap;
-  margin-bottom: 52px;
+  justify-content: center;
+}
+
+.gallery__package-banner-label { font-weight: 300; opacity: 0.7; }
+.gallery__package-banner-name { font-weight: 600; color: var(--jade); font-size: 0.95rem; }
+.gallery__package-banner-count { opacity: 0.7; font-weight: 300; }
+.gallery__package-banner-change {
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(9,124,135,0.25);
+  color: var(--jade);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.78rem;
+  transition: opacity 0.2s var(--ease);
+}
+.gallery__package-banner-change:hover { opacity: 0.7; text-decoration: underline; }
+
+/* --- Main Layout ---------------------------------------- */
+.gallery__spotlight {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* --- Left Panel (Desktop) ------------------------------- */
+.gallery__panel-left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.gallery__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery__copy-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+.gallery__copy-text {
+  font-size: 0.95rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* --- Category Filters (Desktop Vertical) --------------- */
+.gallery__filters-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   background: var(--white);
   border: 1px solid var(--gray-150);
-  border-radius: 100px;
-  padding: 6px;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: var(--radius-lg);
+  padding: 12px;
 }
 
 .filter-btn {
-  padding: 8px 20px;
-  border-radius: 100px;
+  padding: 8px 14px;
+  border-radius: 6px;
   font-size: 0.82rem;
   font-weight: 500;
   background: transparent;
   color: var(--gray-600);
   border: none;
+  text-align: left;
   transition: all 0.22s var(--ease);
+  cursor: pointer;
 }
 
-.filter-btn:hover  { color: var(--jade); background: var(--jade-bg); }
-.filter-btn.active { background: var(--jade); color: var(--white); }
+.filter-btn:hover { color: var(--jade); background: var(--jade-bg); }
+.filter-btn.active { background: var(--jade); color: var(--white); font-weight: 600; }
 
-/* --- Grid ----------------------------------------------- */
-.gallery__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
-  gap: 20px;
-}
-
-/* --- Template Card -------------------------------------- */
-.template-card {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+/* --- Thumbnails Panel (Desktop Vertical) -------------- */
+.gallery__thumbnails-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   background: var(--white);
   border: 1px solid var(--gray-150);
-  transition: all 0.32s var(--ease);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.gallery__thumbnails-desktop::-webkit-scrollbar {
+  width: 4px;
+}
+
+.gallery__thumbnails-desktop::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gallery__thumbnails-desktop::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 2px;
+}
+
+.gallery__thumbnails-desktop::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+.gallery__thumbnails-desktop {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) transparent;
+}
+
+/* --- Template Thumbnail -------------------------------- */
+.gallery__thumbnail {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  overflow: hidden;
   cursor: pointer;
-  animation: cardReveal 0.4s var(--ease) both;
+  transition: all 0.2s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
 }
 
-@keyframes cardReveal {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+.gallery__thumbnail:hover { transform: scale(1.02); }
+.gallery__thumbnail.active {
+  border-color: var(--jade);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(9,124,135,0.2);
 }
 
-.template-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-  border-color: transparent;
+.gallery__thumbnail-background {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
 }
 
-/* --- Preview Area --------------------------------------- */
-.template-card__preview {
-  height: 190px;
+.gallery__thumbnail-ornament {
+  font-size: 1.8rem;
+  z-index: 1;
+  line-height: 1;
+}
+
+/* Gradient backgrounds by theme */
+.gallery__thumbnail[data-theme="boda-clasica"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #FFFDF5, #FFF3D0); }
+.gallery__thumbnail[data-theme="boda-bohemio"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #F5F8F0, #EBF3E8); }
+.gallery__thumbnail[data-theme="boda-moderna"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #FAFAFA, #F0F0F0); }
+.gallery__thumbnail[data-theme="quince-rosa"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #FFF5F8, #FFDDE9); }
+.gallery__thumbnail[data-theme="quince-gold"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #FFFCF0, #FFF0C0); }
+.gallery__thumbnail[data-theme="quince-jardin"] .gallery__thumbnail-background       { background: linear-gradient(135deg, #F5FBF0, #DFF5D8); }
+.gallery__thumbnail[data-theme="fiesta"] .gallery__thumbnail-background              { background: linear-gradient(135deg, #FFF8F5, #FFE8D8); }
+.gallery__thumbnail[data-theme="fiesta-jardin"] .gallery__thumbnail-background       { background: linear-gradient(135deg, #FDF5FF, #F0D8FF); }
+.gallery__thumbnail[data-theme="corporativo"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #F5F8FC, #DDE8F4); }
+.gallery__thumbnail[data-theme="corporativo-moderno"] .gallery__thumbnail-background { background: linear-gradient(135deg, #EBF8F9, #C8EEF0); }
+
+/* --- Phone Mockup (Right Panel / Center Mobile) ------- */
+.gallery__phone-shell {
+  width: 280px;
+  height: 560px;
+  border-radius: 36px;
+  background: #1a1a1a;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 32px 80px rgba(9,124,135,0.18),
+    0 8px 24px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin: 0 auto;
 }
 
-.template-card[data-theme="boda-clasica"]         .template-card__preview { background: linear-gradient(135deg, #FFFDF5, #FFF3D0); }
-.template-card[data-theme="boda-bohemio"]         .template-card__preview { background: linear-gradient(135deg, #F5F8F0, #EBF3E8); }
-.template-card[data-theme="boda-moderna"]         .template-card__preview { background: linear-gradient(135deg, #FAFAFA, #F0F0F0); }
-.template-card[data-theme="quince-rosa"]          .template-card__preview { background: linear-gradient(135deg, #FFF5F8, #FFDDE9); }
-.template-card[data-theme="quince-gold"]          .template-card__preview { background: linear-gradient(135deg, #FFFCF0, #FFF0C0); }
-.template-card[data-theme="quince-jardin"]        .template-card__preview { background: linear-gradient(135deg, #F5FBF0, #DFF5D8); }
-.template-card[data-theme="fiesta"]               .template-card__preview { background: linear-gradient(135deg, #FFF8F5, #FFE8D8); }
-.template-card[data-theme="fiesta-jardin"]        .template-card__preview { background: linear-gradient(135deg, #FDF5FF, #F0D8FF); }
-.template-card[data-theme="corporativo"]          .template-card__preview { background: linear-gradient(135deg, #F5F8FC, #DDE8F4); }
-.template-card[data-theme="corporativo-moderno"]  .template-card__preview { background: linear-gradient(135deg, #EBF8F9, #C8EEF0); }
+/* Notch */
+.gallery__phone-shell::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 20px;
+  background: #000;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+}
 
-/* --- Mini Invitation ------------------------------------ */
-.mini-inv {
-  width: 95px;
-  height: 132px;
-  border-radius: 10px;
+.gallery__phone-screen {
+  width: 100%;
+  height: 100%;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.gallery__phone-screen::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery__phone-screen::-webkit-scrollbar-track {
+  display: none;
+}
+
+.gallery__phone-content {
+  width: 100%;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  min-height: 100%;
   text-align: center;
-  padding: 12px 10px;
-  gap: 4px;
-  background: var(--white);
-  box-shadow: 0 8px 28px rgba(9,124,135,0.10), 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.mini-inv__type     { font-size: 0.44rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; opacity: 0.6; }
-.mini-inv__ornament { font-size: 0.85rem; line-height: 1; }
-.mini-inv__title    { font-family: var(--font-display); font-size: 0.68rem; font-weight: 500; line-height: 1.2; }
-.mini-inv__line     { width: 22px; height: 0.5px; margin: 2px auto; }
-.mini-inv__date     { font-size: 0.4rem; letter-spacing: 0.07em; opacity: 0.55; }
+.gallery__phone-content--entering {
+  animation: phoneContentEnter 0.28s var(--ease) both;
+}
 
-/* --- Badges --------------------------------------------- */
-.template-card__badge {
+@keyframes phoneContentEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gallery__phone-content-wrapper {
+  width: 100%;
+  padding: 8px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Phone scrollable sections */
+.gallery__phone-section {
+  width: 100%;
+  padding: 18px 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.gallery__phone-section:first-child {
+  padding-top: 24px;
+}
+
+.gallery__phone-section:last-child {
+  border-bottom: none;
+}
+
+.gallery__phone-section-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.gallery__phone-section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.gallery__phone-section-detail {
+  font-size: 0.72rem;
+  font-weight: 300;
+  margin: 0;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+.gallery__phone-countdown-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.gallery__phone-rsvp-btn {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 16px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.gallery__phone-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  width: 70%;
+  margin-top: 4px;
+}
+
+.gallery__phone-gallery-grid div {
+  aspect-ratio: 1;
+  border-radius: 4px;
+}
+
+/* Home Indicator */
+.gallery__phone-bar {
   position: absolute;
-  top: 10px; left: 10px;
-  padding: 4px 10px;
-  background: rgba(255,255,255,0.88);
-  backdrop-filter: blur(8px);
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 2px;
+}
+
+/* --- Mobile Layout (Filters + Thumbnails Horizontal) -- */
+.gallery__filters-mobile {
+  display: none;
+  flex-direction: row;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--white);
   border: 1px solid var(--gray-150);
   border-radius: 100px;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--gray-600);
+  padding: 6px;
+  width: fit-content;
+  margin: 0 auto 32px;
 }
 
-.template-card__popular {
-  position: absolute;
-  top: 10px; right: 10px;
-  padding: 4px 10px;
-  background: var(--jade);
-  border-radius: 100px;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #fff;
+.gallery__thumbnails-mobile {
+  display: none;
+  flex-direction: row;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  margin-top: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  justify-content: center;
 }
 
-/* --- Info ----------------------------------------------- */
-.template-card__info { padding: 18px 20px 20px; }
-
-.template-card__name {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--gray-900);
-  margin-bottom: 5px;
-  letter-spacing: -0.01em;
+.gallery__thumbnails-mobile::-webkit-scrollbar {
+  display: none;
 }
 
-.template-card__desc {
-  font-size: 0.8rem;
-  color: var(--gray-600);
-  line-height: 1.5;
-  font-weight: 300;
-  margin-bottom: 14px;
-}
-
-.template-card__cta {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--jade);
-  display: inline-flex;
+.gallery__thumbnail-mobile {
+  width: 56px;
+  height: 88px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  display: flex;
   align-items: center;
-  gap: 5px;
-  transition: gap 0.2s;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: center;
 }
 
-.template-card:hover .template-card__cta { gap: 9px; }
+.gallery__thumbnail-mobile:hover { transform: scale(1.05); }
+.gallery__thumbnail-mobile.active {
+  border-color: var(--jade);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(9,124,135,0.2);
+}
+
+.gallery__thumbnail-mobile .gallery__thumbnail-background {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+}
+
+.gallery__thumbnail-mobile .gallery__thumbnail-ornament {
+  font-size: 1.4rem;
+  z-index: 1;
+  line-height: 1;
+}
 
 /* --- Responsive ----------------------------------------- */
-@media (max-width: 640px) {
-  .gallery__filters { padding: 5px; gap: 4px; }
-  .filter-btn { padding: 7px 14px; font-size: 0.78rem; }
-  .gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .template-card__preview { height: 155px; }
+@media (max-width: 1200px) {
+  .gallery__spotlight { gap: 32px; grid-template-columns: 1fr 1.3fr; }
+}
+
+@media (max-width: 900px) {
+  .gallery__spotlight {
+    display: block;
+  }
+
+  .gallery__panel-left { display: none; }
+  .gallery__filters-desktop { display: none; }
+  .gallery__thumbnails-desktop { display: none; }
+
+  .gallery__filters-mobile { display: flex; margin-bottom: 28px; }
+  .gallery__thumbnails-mobile { display: flex; }
+
+  .gallery__phone-shell {
+    width: 260px;
+    height: 520px;
+    margin-bottom: 24px;
+  }
+
+  .gallery__copy { display: none; }
+}
+
+@media (max-width: 480px) {
+  .gallery { padding: 80px 0; }
+
+  .gallery__filters-mobile { padding: 5px; gap: 4px; }
+  .filter-btn { padding: 6px 12px; font-size: 0.75rem; }
+
+  .gallery__phone-shell {
+    width: 240px;
+    height: 460px;
+  }
+
+  .gallery__phone-screen { padding-top: 28px; padding-bottom: 28px; }
+
+  .gallery__phone-content-wrapper { padding: 4px 12px 32px; }
+  .gallery__phone-ornament { font-size: 32px; }
+  .gallery__phone-names { font-size: 1.25rem; }
+  .gallery__phone-tagline { font-size: 0.75rem; }
+
+  .gallery__thumbnail-mobile { width: 48px; height: 72px; }
+  .gallery__thumbnail-mobile .gallery__thumbnail-ornament { font-size: 1.1rem; }
 }

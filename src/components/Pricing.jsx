@@ -1,23 +1,35 @@
 import { useEffect, useRef, useState } from 'react'
-import { packages } from '../data/mockData'
+import { packages, COMPONENT_METADATA, COMPONENT_ORDER } from '../data/mockData'
+import { usePackageStore } from '../stores/packageStore'
 import './Pricing.css'
 
-function FeatureIcon({ included }) {
-  return (
-    <span className={`package-feature__icon`}>
-      {included ? '✓' : '×'}
-    </span>
-  )
-}
-
 function PackageCard({ pkg, delay, visible }) {
+  const selectedPackageId = usePackageStore(state => state.selectedPackageId)
+  const setSelectedPackage = usePackageStore(state => state.setSelectedPackage)
+  const isSelected = pkg.id === selectedPackageId
+
+  const isTileIncluded = (componentKey) => pkg.includedComponents.includes(componentKey)
+
+  const handleSelect = () => {
+    setSelectedPackage(pkg.id)
+    document.getElementById('gallery')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
     <div
-      className={`package-card package-card--${pkg.color} reveal ${visible ? 'visible' : ''}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`package-card package-card--${pkg.color} ${isSelected ? 'package-card--selected' : ''} reveal ${visible ? 'visible' : ''}`}
+      style={{ transitionDelay: `${delay}ms`, cursor: 'pointer' }}
+      onClick={handleSelect}
     >
-      {pkg.popular && (
+      {pkg.popular && !isSelected && (
         <div className="package-card__popular-badge">Más Popular</div>
+      )}
+
+      {isSelected && (
+        <div className="package-card__selected-badge">✓ Seleccionado</div>
       )}
 
       <div className="package-card__name">{pkg.name}</div>
@@ -32,20 +44,33 @@ function PackageCard({ pkg, delay, visible }) {
 
       <p className="package-card__tagline">{pkg.tagline}</p>
 
-      <ul className="package-card__features">
-        {pkg.features.map((feat, i) => (
-          <li
-            key={i}
-            className={`package-feature package-feature--${feat.included ? 'included' : 'excluded'}`}
-          >
-            <FeatureIcon included={feat.included} />
-            <span>{feat.text}</span>
-          </li>
-        ))}
+      {/* Component List — Enabled first, then disabled */}
+      <ul className="pricing__component-list">
+        {/* Enabled items */}
+        {COMPONENT_ORDER.filter(key => isTileIncluded(key)).map((componentKey) => {
+          const metadata = COMPONENT_METADATA[componentKey]
+          return (
+            <li key={componentKey} className="pricing__component-item">
+              {metadata.label}
+            </li>
+          )
+        })}
+        {/* Disabled items */}
+        {COMPONENT_ORDER.filter(key => !isTileIncluded(key)).map((componentKey) => {
+          const metadata = COMPONENT_METADATA[componentKey]
+          return (
+            <li
+              key={componentKey}
+              className="pricing__component-item pricing__component-item--excluded"
+            >
+              {metadata.label}
+            </li>
+          )
+        })}
       </ul>
 
       <button className={`btn package-card__cta`}>
-        {pkg.cta}
+        {isSelected ? 'Ver mi preview ↓' : 'Ver con este paquete →'}
       </button>
     </div>
   )
