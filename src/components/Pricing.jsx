@@ -7,6 +7,8 @@ function PackageCard({ pkg, delay, visible }) {
   const selectedPackageId = usePackageStore(state => state.selectedPackageId)
   const setSelectedPackage = usePackageStore(state => state.setSelectedPackage)
   const isSelected = pkg.id === selectedPackageId
+  const [priceAdjustment, setPriceAdjustment] = useState(0)
+  const adjustedPrice = pkg.price + priceAdjustment
 
   const isTileIncluded = (componentKey) => pkg.includedComponents.includes(componentKey)
 
@@ -16,6 +18,13 @@ function PackageCard({ pkg, delay, visible }) {
       behavior: 'smooth',
       block: 'start',
     })
+  }
+
+  const handlePriceAdjust = (amount) => {
+    const newAdjustment = priceAdjustment + amount
+    if (newAdjustment >= -pkg.price) {
+      setPriceAdjustment(newAdjustment)
+    }
   }
 
   return (
@@ -34,12 +43,36 @@ function PackageCard({ pkg, delay, visible }) {
 
       <div className="package-card__name">{pkg.name}</div>
 
-      <div className="package-card__price">
-        <span className="package-card__currency">$</span>
-        <span className="package-card__amount">
-          {pkg.price.toLocaleString('es-MX')}
-        </span>
-        <span className="package-card__period">MXN</span>
+      <div className="package-card__price-container">
+        <div className="package-card__price">
+          <span className="package-card__currency">$</span>
+          <span className="package-card__amount">
+            {adjustedPrice.toLocaleString('es-MX')}
+          </span>
+          <span className="package-card__period">MXN</span>
+        </div>
+        <div className="package-card__price-adjusters">
+          <button
+            className="price-adjuster price-adjuster--minus"
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePriceAdjust(-500)
+            }}
+            title="Reducir precio"
+          >
+            −
+          </button>
+          <button
+            className="price-adjuster price-adjuster--plus"
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePriceAdjust(500)
+            }}
+            title="Aumentar precio"
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <p className="package-card__tagline">{pkg.tagline}</p>
