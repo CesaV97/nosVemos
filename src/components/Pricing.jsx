@@ -111,6 +111,7 @@ function PackageCard({ pkg, delay, visible }) {
 
 export default function Pricing() {
   const sectionRef = useRef(null)
+  const gridRef = useRef(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -121,6 +122,16 @@ export default function Pricing() {
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
+
+  const scroll = (direction) => {
+    if (gridRef.current) {
+      const scrollAmount = 320 // ancho de tarjeta + gap
+      gridRef.current.scrollBy({
+        left: direction === 'next' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      })
+    }
+  }
 
   return (
     <section className="pricing" id="pricing" ref={sectionRef}>
@@ -139,7 +150,24 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="pricing__grid">
+        <div className="pricing__controls">
+          <button
+            className="pricing__nav-btn pricing__nav-btn--prev"
+            onClick={() => scroll('prev')}
+            aria-label="Paquete anterior"
+          >
+            ←
+          </button>
+          <button
+            className="pricing__nav-btn pricing__nav-btn--next"
+            onClick={() => scroll('next')}
+            aria-label="Siguiente paquete"
+          >
+            →
+          </button>
+        </div>
+
+        <div className="pricing__grid" ref={gridRef}>
           {packages.map((pkg, i) => (
             <PackageCard
               key={pkg.id}
