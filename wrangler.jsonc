@@ -1,0 +1,10 @@
+{
+  "name": "nosvemos-mx",
+  "type": "javascript",
+  "compatibility_date": "2026-04-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  }
+}
