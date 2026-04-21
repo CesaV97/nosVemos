@@ -4,6 +4,39 @@
   position: relative;
 }
 
+.pricing__controls {
+  display: none;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.pricing__nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  background: transparent;
+  color: var(--cyan);
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pricing__nav-btn:hover {
+  background: var(--cyan);
+  color: #023840;
+  transform: scale(1.1);
+}
+
+.pricing__nav-btn:active {
+  transform: scale(0.95);
+}
+
 .pricing__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -79,11 +112,19 @@
 .package-card--dark .package-card__name { color: var(--gray-400); }
 
 /* --- Price ---------------------------------------------- */
+.package-card__price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
 .package-card__price {
   display: flex;
   align-items: baseline;
   gap: 3px;
-  margin-bottom: 6px;
+  flex: 1;
 }
 
 .package-card__currency { font-size: 1rem; font-weight: 400; }
@@ -104,6 +145,56 @@
 .package-card--gold .package-card__currency { color: var(--jade-mid); }
 .package-card--dark .package-card__amount   { color: var(--white); }
 .package-card--dark .package-card__currency { color: var(--gray-400); }
+
+/* --- Price Adjusters ------------------------------------ */
+.package-card__price-adjusters {
+  display: none;
+  gap: 4px;
+}
+
+.price-adjuster {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1.5px solid;
+  background: transparent;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.package-card--warm .price-adjuster {
+  border-color: var(--gray-200);
+  color: var(--gray-900);
+}
+.package-card--warm .price-adjuster:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+}
+
+.package-card--gold .price-adjuster {
+  border-color: var(--jade-mid);
+  color: var(--jade-dark);
+}
+.package-card--gold .price-adjuster:hover {
+  background: rgba(9, 124, 135, 0.1);
+  border-color: var(--jade-dark);
+}
+
+.package-card--dark .price-adjuster {
+  border-color: rgba(35, 206, 217, 0.3);
+  color: var(--cyan);
+}
+.package-card--dark .price-adjuster:hover {
+  background: rgba(35, 206, 217, 0.1);
+  border-color: var(--cyan);
+}
 
 /* --- Tagline -------------------------------------------- */
 .package-card__tagline {
@@ -242,6 +333,11 @@
 }
 
 @media (max-width: 900px) {
+  /* Show navigation controls on tablet/mobile */
+  .pricing__controls {
+    display: flex;
+  }
+
   .pricing__grid {
     display: flex;
     flex-direction: row;
@@ -295,30 +391,63 @@
   .package-card__amount { font-size: 2.2rem; }
   .package-card { padding: 28px 22px; }
   .pricing__component-item { font-size: 0.78rem; line-height: 1.5; }
+  .package-card__price-adjusters { display: flex; }
 }
 
 @media (max-width: 480px) {
   .pricing { padding: 80px 0; }
 
+  /* Show navigation controls on mobile */
+  .pricing__controls {
+    display: flex;
+  }
+
   .pricing__grid {
-    gap: 10px;
+    gap: 12px;
     margin: 0 -16px;
     padding-left: 16px;
     padding-right: 16px;
   }
 
+  /* Increase card width for better visibility */
   .package-card {
-    min-width: 260px;
-    width: 260px;
+    min-width: 290px;
+    width: 290px;
   }
 
   .package-card--gold {
-    min-width: 270px;
-    width: 270px;
+    min-width: 300px;
+    width: 300px;
   }
 
-  .package-card { padding: 24px 18px; }
-  .package-card__amount { font-size: 2rem; }
+  .package-card { padding: 20px 16px; }
+  .package-card__amount { font-size: 2.2rem; }
   .package-card__name { font-size: 0.68rem; }
-  .pricing__component-item { font-size: 0.75rem; padding: 5px 0; }
+  .pricing__component-item { font-size: 0.72rem; padding: 4px 0; }
+
+  /* Make price adjusters visible and position them better */
+  .package-card__price-adjusters { display: flex; }
+  .package-card__price-container {
+    flex-wrap: nowrap;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  .price-adjuster {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* Ensure price doesn't wrap */
+  .package-card__price {
+    flex-shrink: 0;
+  }
+
+  .package-card__tagline {
+    font-size: 0.78rem;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
 }
