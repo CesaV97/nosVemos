@@ -8,33 +8,44 @@
   display: none;
   gap: 12px;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .pricing__nav-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 2px solid var(--cyan);
   background: transparent;
   color: var(--cyan);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s var(--ease);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.pricing__nav-btn:hover {
+.pricing__nav-btn:hover:not(:disabled) {
   background: var(--cyan);
   color: #023840;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
-.pricing__nav-btn:active {
+.pricing__nav-btn:active:not(:disabled) {
   transform: scale(0.95);
+}
+
+.pricing__nav-btn--disabled {
+  opacity: 0.3;
+  border-color: var(--gray-300);
+  color: var(--gray-400);
+  cursor: not-allowed;
 }
 
 .pricing__grid {
@@ -333,6 +344,10 @@
 }
 
 @media (max-width: 900px) {
+  .pricing {
+    position: relative;
+  }
+
   /* Show navigation controls on tablet/mobile */
   .pricing__controls {
     display: flex;
@@ -345,29 +360,17 @@
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     padding-bottom: 8px;
     margin: 0 -24px;
     padding-left: 24px;
     padding-right: 24px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(9,124,135,0.2) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .pricing__grid::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .pricing__grid::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .pricing__grid::-webkit-scrollbar-thumb {
-    background: rgba(9,124,135,0.2);
-    border-radius: 2px;
-  }
-
-  .pricing__grid::-webkit-scrollbar-thumb:hover {
-    background: rgba(9,124,135,0.4);
+    display: none;
   }
 
   .package-card {
@@ -380,8 +383,8 @@
 
   .package-card--gold {
     transform: none;
-    min-width: 290px;
-    width: 290px;
+    min-width: 280px;
+    width: 280px;
   }
 
   .package-card--gold:hover {
@@ -395,11 +398,9 @@
 }
 
 @media (max-width: 480px) {
-  .pricing { padding: 80px 0; }
-
-  /* Show navigation controls on mobile */
-  .pricing__controls {
-    display: flex;
+  .pricing {
+    padding: 80px 0;
+    position: relative;
   }
 
   .pricing__grid {
@@ -409,15 +410,17 @@
     padding-right: 16px;
   }
 
-  /* Increase card width for better visibility */
+  /* Single card centered - no next card visible */
   .package-card {
-    min-width: 290px;
-    width: 290px;
+    min-width: 100%;
+    width: 100%;
+    max-width: calc(100vw - 32px);
   }
 
   .package-card--gold {
-    min-width: 300px;
-    width: 300px;
+    min-width: 100%;
+    width: 100%;
+    max-width: calc(100vw - 32px);
   }
 
   .package-card { padding: 20px 16px; }
@@ -440,7 +443,6 @@
     flex-shrink: 0;
   }
 
-  /* Ensure price doesn't wrap */
   .package-card__price {
     flex-shrink: 0;
   }

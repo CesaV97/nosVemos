@@ -113,6 +113,7 @@ export default function Pricing() {
   const sectionRef = useRef(null)
   const gridRef = useRef(null)
   const [visible, setVisible] = useState(false)
+  const [scrollIndex, setScrollIndex] = useState(0)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -125,13 +126,20 @@ export default function Pricing() {
 
   const scroll = (direction) => {
     if (gridRef.current) {
-      const scrollAmount = 320 // ancho de tarjeta + gap
-      gridRef.current.scrollBy({
-        left: direction === 'next' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth',
-      })
+      const newIndex = direction === 'next' ? scrollIndex + 1 : scrollIndex - 1
+      if (newIndex >= 0 && newIndex < packages.length) {
+        setScrollIndex(newIndex)
+        const cardWidth = 300 + 12 // ancho de tarjeta + gap
+        gridRef.current.scrollTo({
+          left: newIndex * cardWidth,
+          behavior: 'smooth',
+        })
+      }
     }
   }
+
+  const canScrollPrev = scrollIndex > 0
+  const canScrollNext = scrollIndex < packages.length - 1
 
   return (
     <section className="pricing" id="pricing" ref={sectionRef}>
@@ -152,15 +160,17 @@ export default function Pricing() {
 
         <div className="pricing__controls">
           <button
-            className="pricing__nav-btn pricing__nav-btn--prev"
+            className={`pricing__nav-btn pricing__nav-btn--prev ${!canScrollPrev ? 'pricing__nav-btn--disabled' : ''}`}
             onClick={() => scroll('prev')}
+            disabled={!canScrollPrev}
             aria-label="Paquete anterior"
           >
             ←
           </button>
           <button
-            className="pricing__nav-btn pricing__nav-btn--next"
+            className={`pricing__nav-btn pricing__nav-btn--next ${!canScrollNext ? 'pricing__nav-btn--disabled' : ''}`}
             onClick={() => scroll('next')}
+            disabled={!canScrollNext}
             aria-label="Siguiente paquete"
           >
             →
