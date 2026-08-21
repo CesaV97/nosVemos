@@ -1,7 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { templates, packages, COMPONENT_ORDER } from '../data/mockData'
+import { templates, packages, COMPONENT_ORDER, COMPONENT_METADATA } from '../data/mockData'
 import { usePackageStore } from '../stores/packageStore'
+import {
+  SparkleIcon, ClockIcon, PinIcon, ChatIcon, ChurchIcon, DressIcon,
+  CheckCircleIcon, PhotosIcon, MusicIcon, LockIcon,
+  PhoneDeviceIcon, DesktopIcon, CheckIcon, ArrowRightIcon,
+} from './icons/UiIcons'
 import './TemplateGallery.css'
 
 const CATEGORIES = [
@@ -12,171 +17,241 @@ const CATEGORIES = [
   { id: 'corporativo', label: 'Corporativos' },
 ]
 
+// Acentos oscurecidos respecto a la versión anterior para cumplir 4.5:1 sobre fondo claro
 const THEME_CONFIG = {
-  'boda-clasica':       { ornament: '◆', accent: '#C8A96E' },
-  'boda-bohemio':       { ornament: '❧', accent: '#8DB870' },
-  'boda-moderna':       { ornament: '—', accent: '#A89878' },
-  'quince-rosa':        { ornament: '✿', accent: '#E8A0BF' },
-  'quince-gold':        { ornament: '♛', accent: '#D4AF37' },
-  'quince-jardin':      { ornament: '✾', accent: '#78C878' },
-  'fiesta':             { ornament: '★', accent: '#60B0F0' },
-  'fiesta-jardin':      { ornament: '☼', accent: '#D08040' },
-  'corporativo':        { ornament: '◈', accent: '#90B8D8' },
-  'corporativo-moderno':{ ornament: '⬡', accent: '#70C0D0' },
+  'boda-clasica':       { ornament: '◆', accent: '#8C6D2F' },
+  'boda-bohemio':       { ornament: '❧', accent: '#4A7038' },
+  'boda-moderna':       { ornament: '—', accent: '#6B5C40' },
+  'quince-rosa':        { ornament: '✿', accent: '#A8436B' },
+  'quince-gold':        { ornament: '♛', accent: '#87691F' },
+  'quince-jardin':      { ornament: '✾', accent: '#357032' },
+  'fiesta':             { ornament: '★', accent: '#22639B' },
+  'fiesta-jardin':      { ornament: '☼', accent: '#8A4419' },
+  'corporativo':        { ornament: '◈', accent: '#355B7D' },
+  'corporativo-moderno':{ ornament: '⬡', accent: '#166872' },
 }
 
 const DEMO_INVITATION_MAP = {
-  'boda': 'demo-boda',
-  'quinceanera': 'demo-quince',
-  'fiesta': 'demo-boda',
-  'corporativo': 'demo-boda',
+  boda: 'demo-boda',
+  quinceanera: 'demo-quince',
+  fiesta: 'demo-boda',
+  corporativo: 'demo-boda',
 }
 
-/* ----- Mini section previews ----- */
+// Ícono por sección — reemplaza los emoji de COMPONENT_METADATA
+const SECTION_ICONS = {
+  hero: SparkleIcon,
+  countdown: ClockIcon,
+  reception: PinIcon,
+  message: ChatIcon,
+  ceremony: ChurchIcon,
+  dresscode: DressIcon,
+  rsvp: CheckCircleIcon,
+  gallery: PhotosIcon,
+  music: MusicIcon,
+}
 
-function PreviewHero({ config, preview }) {
+/* =========================================================
+   Paso 2 — Qué incluye el paquete
+   ========================================================= */
+
+function SectionChips({ includedComponents, onJump, activeSection }) {
+  const included = COMPONENT_ORDER.filter(k => includedComponents.includes(k))
+  const locked = COMPONENT_ORDER.filter(k => !includedComponents.includes(k))
+
+  // Paquete más económico que sí incluye la sección → upsell honesto
+  const unlockPackageFor = (key) =>
+    packages.find(p => p.includedComponents.includes(key))?.name
+
   return (
-    <>
-      <div className="gallery__phone-section-icon" style={{ color: config.accent, fontSize: '32px' }}>
-        {config.ornament}
-      </div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '1.25rem' }}>
-        {preview.names}
-      </h3>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent }}>
-        {preview.tagline}
-      </p>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent, fontWeight: 500 }}>
-        {preview.date}
-      </p>
-    </>
+    <ul className="gallery__chips">
+      {included.map(key => {
+        const Icon = SECTION_ICONS[key]
+        const meta = COMPONENT_METADATA[key]
+        return (
+          <li key={key}>
+            <button
+              type="button"
+              className={`gallery-chip ${activeSection === key ? 'gallery-chip--active' : ''}`}
+              onClick={() => onJump(key)}
+              title={meta.description}
+            >
+              <Icon className="gallery-chip__icon" />
+              <span className="gallery-chip__label">{meta.label}</span>
+            </button>
+          </li>
+        )
+      })}
+
+      {locked.map(key => {
+        const meta = COMPONENT_METADATA[key]
+        const unlock = unlockPackageFor(key)
+        const note = unlock
+          ? `Disponible en el paquete ${unlock}`
+          : 'No disponible en ningún paquete'
+        return (
+          <li key={key}>
+            <span className="gallery-chip gallery-chip--locked" title={note}>
+              <LockIcon className="gallery-chip__icon" />
+              <span className="gallery-chip__label">{meta.label}</span>
+              <span className="sr-only">{note}</span>
+            </span>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
-function PreviewCountdown({ config }) {
-  return (
-    <>
-      <div className="gallery__phone-section-detail" style={{ color: config.accent, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.6rem' }}>
-        Faltan
-      </div>
-      <div className="gallery__phone-countdown-num" style={{ color: config.accent }}>
-        245 días
-      </div>
-    </>
-  )
-}
+/* =========================================================
+   Paso 1 — Tarjeta de plantilla
+   ========================================================= */
 
-function PreviewReception({ config, preview }) {
-  return (
-    <>
-      <div className="gallery__phone-section-icon">📍</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Recepción
-      </h3>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent }}>
-        {preview.place}
-      </p>
-    </>
-  )
-}
+function TemplateCard({ template, active, onSelect }) {
+  const config = THEME_CONFIG[template.theme]
+  const preview = template.previewLines
 
-function PreviewMessage({ config }) {
   return (
-    <>
-      <div className="gallery__phone-section-icon">💬</div>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent, fontStyle: 'italic' }}>
-        "Nos llena de alegría compartir este día tan especial contigo"
-      </p>
-    </>
-  )
-}
+    <button
+      type="button"
+      className={`tpl-card ${active ? 'tpl-card--active' : ''}`}
+      data-theme={template.theme}
+      onClick={() => onSelect(template)}
+      aria-pressed={active}
+      aria-label={`Plantilla ${template.name}, ${template.categoryLabel}`}
+    >
+      {/* Mini portada: usa el ornamento y color reales del tema */}
+      <span className="tpl-card__cover">
+        <span className="tpl-card__ornament" style={{ color: config.accent }}>
+          {config.ornament}
+        </span>
+        <span className="tpl-card__names" style={{ color: config.accent }}>
+          {preview?.names || template.name}
+        </span>
+        <span className="tpl-card__date">{preview?.date}</span>
 
-function PreviewCeremony({ config }) {
-  return (
-    <>
-      <div className="gallery__phone-section-icon">⛪</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Ceremonia
-      </h3>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent }}>
-        Parroquia San Miguel · 17:00 hrs
-      </p>
-    </>
-  )
-}
+        {template.popular && (
+          <span className="tpl-card__badge">Popular</span>
+        )}
 
-function PreviewDressCode({ config }) {
-  return (
-    <>
-      <div className="gallery__phone-section-icon">👗</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Código de Vestimenta
-      </h3>
-      <p className="gallery__phone-section-detail" style={{ color: config.accent }}>
-        Etiqueta · Marfil y dorado
-      </p>
-    </>
-  )
-}
-
-function PreviewRSVP({ config }) {
-  return (
-    <>
-      <div className="gallery__phone-section-icon">✅</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Confirmar Asistencia
-      </h3>
-      <span className="gallery__phone-rsvp-btn" style={{ color: config.accent, background: `${config.accent}20` }}>
-        📱 Confirmar por WhatsApp
+        <span className="tpl-card__check" aria-hidden="true">
+          <CheckIcon />
+        </span>
       </span>
-    </>
+
+      <span className="tpl-card__meta">
+        <span className="tpl-card__name">{template.name}</span>
+        <span className="tpl-card__category">{template.categoryLabel}</span>
+      </span>
+    </button>
   )
 }
 
-function PreviewGallery({ config }) {
+/* =========================================================
+   Paso 3 — Secciones dentro del preview
+   ========================================================= */
+
+function SectionBlock({ sectionKey, config, preview, forwardRef }) {
+  const Icon = SECTION_ICONS[sectionKey]
+  const meta = COMPONENT_METADATA[sectionKey]
+  const accent = config.accent
+
+  const content = {
+    hero: (
+      <>
+        <span className="pv__ornament" style={{ color: accent }}>{config.ornament}</span>
+        <h4 className="pv__names" style={{ color: accent }}>{preview.names}</h4>
+        <p className="pv__tagline">{preview.tagline}</p>
+        <p className="pv__date" style={{ color: accent }}>{preview.date}</p>
+      </>
+    ),
+    countdown: (
+      <>
+        <p className="pv__eyebrow">Faltan</p>
+        <span className="pv__countdown">
+          {[['245', 'días'], ['06', 'hrs'], ['12', 'min']].map(([n, l]) => (
+            <span className="pv__countdown-cell" key={l}>
+              <strong style={{ color: accent }}>{n}</strong>
+              <em>{l}</em>
+            </span>
+          ))}
+        </span>
+      </>
+    ),
+    reception: (
+      <>
+        <p className="pv__title">Recepción</p>
+        <p className="pv__body">{preview.place}</p>
+        <p className="pv__body pv__body--muted">20:00 hrs · Ver en Maps</p>
+      </>
+    ),
+    message: (
+      <p className="pv__quote">
+        Nos llena de alegría compartir este día tan especial contigo.
+      </p>
+    ),
+    ceremony: (
+      <>
+        <p className="pv__title">Ceremonia</p>
+        <p className="pv__body">Parroquia San Miguel</p>
+        <p className="pv__body pv__body--muted">17:00 hrs</p>
+      </>
+    ),
+    dresscode: (
+      <>
+        <p className="pv__title">Código de vestimenta</p>
+        <p className="pv__body">Etiqueta · Marfil y dorado</p>
+      </>
+    ),
+    rsvp: (
+      <>
+        <p className="pv__title">Confirmar asistencia</p>
+        <span className="pv__btn" style={{ background: accent }}>
+          Confirmar por WhatsApp
+        </span>
+      </>
+    ),
+    gallery: (
+      <>
+        <p className="pv__title">Galería</p>
+        <span className="pv__grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <span key={i} style={{ background: `${accent}22` }} />
+          ))}
+        </span>
+      </>
+    ),
+    music: (
+      <>
+        <p className="pv__title">Música</p>
+        <span className="pv__track">
+          <span className="pv__track-bar">
+            <span style={{ background: accent, width: '42%' }} />
+          </span>
+          <em>Canción de fondo al abrir</em>
+        </span>
+      </>
+    ),
+  }[sectionKey]
+
   return (
-    <>
-      <div className="gallery__phone-section-icon">🖼</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Galería
-      </h3>
-      <div className="gallery__phone-gallery-grid">
-        <div style={{ background: `${config.accent}25` }} />
-        <div style={{ background: `${config.accent}25` }} />
-        <div style={{ background: `${config.accent}25` }} />
-        <div style={{ background: `${config.accent}25` }} />
-      </div>
-    </>
+    <div className="pv__section" ref={forwardRef} data-section={sectionKey}>
+      {sectionKey !== 'hero' && (
+        <span
+          className="pv__section-icon"
+          style={{ color: accent, background: `${accent}14` }}
+          aria-hidden="true"
+        >
+          <Icon />
+        </span>
+      )}
+      <span className="pv__section-body">{content}</span>
+      <span className="sr-only">{meta.label}</span>
+    </div>
   )
 }
 
-function PreviewMusic({ config }) {
-  return (
-    <>
-      <div className="gallery__phone-section-icon">🎵</div>
-      <h3 className="gallery__phone-section-title" style={{ color: config.accent, fontSize: '0.9rem' }}>
-        Música
-      </h3>
-      <div style={{
-        width: '70%',
-        height: '4px',
-        background: `${config.accent}20`,
-        borderRadius: '2px',
-        position: 'relative',
-        marginTop: '4px',
-      }}>
-        <div style={{
-          width: '40%',
-          height: '100%',
-          background: config.accent,
-          borderRadius: '2px',
-        }} />
-      </div>
-    </>
-  )
-}
-
-function PhoneInvitationPreview({ template, includedComponents }) {
+function InvitationPreview({ template, includedComponents, sectionRefs }) {
   const config = THEME_CONFIG[template.theme]
   const preview = template.previewLines || {
     names: template.name,
@@ -185,102 +260,58 @@ function PhoneInvitationPreview({ template, includedComponents }) {
     place: 'Lugar por definir',
   }
 
-  const sections = {
-    hero:      <PreviewHero config={config} preview={preview} />,
-    countdown: <PreviewCountdown config={config} />,
-    reception: <PreviewReception config={config} preview={preview} />,
-    message:   <PreviewMessage config={config} />,
-    ceremony:  <PreviewCeremony config={config} />,
-    dresscode: <PreviewDressCode config={config} />,
-    rsvp:      <PreviewRSVP config={config} />,
-    gallery:   <PreviewGallery config={config} />,
-    music:     <PreviewMusic config={config} />,
-  }
-
   return (
-    <div className="gallery__phone-content-wrapper">
-      {COMPONENT_ORDER.map(key =>
-        includedComponents.includes(key) ? (
-          <div key={key} className="gallery__phone-section">
-            {sections[key]}
-          </div>
-        ) : null
-      )}
+    <div className="pv" data-theme={template.theme}>
+      {COMPONENT_ORDER.filter(k => includedComponents.includes(k)).map(key => (
+        <SectionBlock
+          key={key}
+          sectionKey={key}
+          config={config}
+          preview={preview}
+          forwardRef={el => { sectionRefs.current[key] = el }}
+        />
+      ))}
     </div>
   )
 }
 
-function TemplateThumbnail({ template, active, onClick }) {
-  const config = THEME_CONFIG[template.theme]
-
-  return (
-    <button
-      className={`gallery__thumbnail ${active ? 'active' : ''}`}
-      onClick={onClick}
-      data-theme={template.theme}
-      aria-label={`${template.name} template`}
-      style={{ cursor: 'pointer', border: 'none', padding: 0, background: 'transparent' }}
-    >
-      <div className="gallery__thumbnail-background" />
-      <div className="gallery__thumbnail-ornament" style={{ color: config.accent }}>
-        {config.ornament}
-      </div>
-    </button>
-  )
-}
-
-function TemplateThumbnailMobile({ template, active, onClick }) {
-  const config = THEME_CONFIG[template.theme]
-
-  return (
-    <button
-      className={`gallery__thumbnail-mobile ${active ? 'active' : ''}`}
-      onClick={onClick}
-      data-theme={template.theme}
-      aria-label={`${template.name} template`}
-      style={{ cursor: 'pointer', border: 'none', padding: 0, background: 'transparent' }}
-    >
-      <div className="gallery__thumbnail-background" />
-      <div className="gallery__thumbnail-ornament" style={{ color: config.accent }}>
-        {config.ornament}
-      </div>
-    </button>
-  )
-}
+/* =========================================================
+   Sección
+   ========================================================= */
 
 export default function TemplateGallery() {
   const [activeCategory, setActiveCategory] = useState('all')
-  const [activeTemplate, setActiveTemplate] = useState(null)
-  const [isEntering, setIsEntering] = useState(false)
-  const sectionRef = useRef(null)
+  const [activeTemplateId, setActiveTemplateId] = useState(templates[0]?.id ?? null)
+  const [device, setDevice] = useState('mobile') // 'mobile' | 'desktop'
+  const [activeSection, setActiveSection] = useState('hero')
   const [visible, setVisible] = useState(false)
+
+  const sectionRef = useRef(null)
+  const viewportRef = useRef(null)
+  const sectionRefs = useRef({})
 
   const selectedPackageId = usePackageStore(state => state.selectedPackageId)
   const selectedPackage = packages.find(p => p.id === selectedPackageId) || packages[1]
   const includedComponents = selectedPackage.includedComponents
 
-  const filtered = activeCategory === 'all'
-    ? templates
-    : templates.filter(t => t.category === activeCategory)
+  const filtered = useMemo(
+    () => (activeCategory === 'all'
+      ? templates
+      : templates.filter(t => t.category === activeCategory)),
+    [activeCategory]
+  )
 
-  // Initialize active template and reset on category change
+  // La plantilla activa siempre debe existir dentro del filtro actual
+  const activeTemplate =
+    filtered.find(t => t.id === activeTemplateId) || filtered[0] || null
+
   useEffect(() => {
-    setActiveTemplate(filtered[0])
-    setIsEntering(true)
-    const timer = setTimeout(() => setIsEntering(false), 280)
-    return () => clearTimeout(timer)
-  }, [activeCategory])
-
-  // Handle template change with transition
-  const handleTemplateClick = (template) => {
-    if (template.id !== activeTemplate?.id) {
-      setIsEntering(true)
-      setActiveTemplate(template)
-      setTimeout(() => setIsEntering(false), 280)
+    if (activeTemplate && activeTemplate.id !== activeTemplateId) {
+      setActiveTemplateId(activeTemplate.id)
     }
-  }
+  }, [activeTemplate, activeTemplateId])
 
-  // Intersection observer for section reveal
+  // Reveal de la sección completa
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true) },
@@ -290,6 +321,37 @@ export default function TemplateGallery() {
     return () => observer.disconnect()
   }, [])
 
+  // Chip activo según la sección visible dentro del preview.
+  // En escritorio el viewport es el contenedor con scroll; en móvil es la página.
+  useEffect(() => {
+    const root = viewportRef.current
+    if (!root) return
+
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches
+    const observer = new IntersectionObserver(
+      entries => {
+        const shown = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (shown) setActiveSection(shown.target.dataset.section)
+      },
+      { root: isDesktop ? root : null, threshold: 0.55 }
+    )
+
+    Object.values(sectionRefs.current)
+      .filter(Boolean)
+      .forEach(el => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [activeTemplate, includedComponents, device])
+
+  const handleJump = (key) => {
+    const el = sectionRefs.current[key]
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setActiveSection(key)
+  }
+
   const demoId = activeTemplate ? DEMO_INVITATION_MAP[activeTemplate.category] : 'demo-boda'
 
   return (
@@ -298,39 +360,35 @@ export default function TemplateGallery() {
         <div className={`section-header reveal ${visible ? 'visible' : ''}`}>
           <p className="section-eyebrow">Nuestras Plantillas</p>
           <h2 className="section-title">
-            Diseños para cada <em style={{ fontFamily: 'var(--font-accent)', fontStyle: 'italic' }}>gran ocasión</em>
+            Diseños para cada <em>gran ocasión</em>
           </h2>
           <p className="section-subtitle">
-            Explora nuestra colección de invitaciones digitales, elegantes y personalizables.
+            Elige un diseño, revisa qué incluye tu paquete y míralo tal como lo
+            recibirán tus invitados.
           </p>
         </div>
 
-        {/* Package Indicator Banner */}
-        <div className="gallery__package-banner">
-          <span className="gallery__package-banner-label">Mostrando con paquete</span>
-          <strong className="gallery__package-banner-name">{selectedPackage.name}</strong>
-          <span className="gallery__package-banner-count">
-            · {includedComponents.length} secciones
-          </span>
-          <a href="#pricing" className="gallery__package-banner-change">Cambiar paquete</a>
-        </div>
-
-        {/* Desktop Layout */}
-        <div className="gallery__spotlight">
-          {/* Left Panel */}
-          <div className="gallery__panel-left">
-            <div className="gallery__copy">
-              <h3 className="gallery__copy-title">Vista previa en tiempo real</h3>
-              <p className="gallery__copy-text">
-                Cada invitación se optimiza para verse perfecta en WhatsApp. Selecciona un template y desliza dentro del teléfono para ver las secciones de tu paquete.
-              </p>
+        <div className="gallery__layout">
+          {/* ---------- Paso 1: elegir ---------- */}
+          <div className="gallery__picker">
+            <div className="gallery__step">
+              <span className="gallery__step-num">1</span>
+              <span className="gallery__step-text">
+                <span className="gallery__step-title">Elige tu diseño</span>
+                <span className="gallery__step-hint">
+                  {filtered.length}{' '}
+                  {filtered.length === 1 ? 'plantilla disponible' : 'plantillas disponibles'}
+                </span>
+              </span>
             </div>
 
-            {/* Category Filters (Desktop) */}
-            <div className="gallery__filters-desktop">
+            <div className="gallery__filters" role="tablist" aria-label="Categorías">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeCategory === cat.id}
                   className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
                   onClick={() => setActiveCategory(cat.id)}
                 >
@@ -339,90 +397,101 @@ export default function TemplateGallery() {
               ))}
             </div>
 
-            {/* Thumbnails (Desktop) */}
-            <div className="gallery__thumbnails-desktop">
+            <div className="gallery__cards">
               {filtered.map(template => (
-                <TemplateThumbnail
+                <TemplateCard
                   key={template.id}
                   template={template}
                   active={activeTemplate?.id === template.id}
-                  onClick={() => handleTemplateClick(template)}
+                  onSelect={t => setActiveTemplateId(t.id)}
                 />
               ))}
             </div>
           </div>
 
-          {/* Phone Mockup (Center/Right) */}
-          {activeTemplate && (
-            <div className="gallery__phone-shell">
-              <div className="gallery__phone-screen">
-                <div className={`gallery__phone-content ${isEntering ? 'gallery__phone-content--entering' : ''}`}>
-                  <PhoneInvitationPreview
-                    template={activeTemplate}
-                    includedComponents={includedComponents}
-                  />
-                </div>
-              </div>
-              <div className="gallery__phone-bar" />
+          {/* ---------- Pasos 2 y 3: entender + previsualizar ---------- */}
+          <div className="gallery__stage">
+            <div className="gallery__step">
+              <span className="gallery__step-num">2</span>
+              <span className="gallery__step-text">
+                <span className="gallery__step-title">Qué incluye tu paquete</span>
+                <span className="gallery__step-hint">
+                  Paquete <strong>{selectedPackage.name}</strong> ·{' '}
+                  {includedComponents.length} de {COMPONENT_ORDER.length} secciones ·{' '}
+                  <a href="#pricing" className="gallery__change-link">Cambiar</a>
+                </span>
+              </span>
             </div>
-          )}
-        </div>
 
-        {/* Mobile Filters + Thumbnails (phone mockup is shared, rendered above in spotlight) */}
-        <div className="gallery__filters-mobile">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat.id}
-              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat.id)}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="gallery__thumbnails-mobile">
-          {filtered.map(template => (
-            <TemplateThumbnailMobile
-              key={template.id}
-              template={template}
-              active={activeTemplate?.id === template.id}
-              onClick={() => handleTemplateClick(template)}
+            <SectionChips
+              includedComponents={includedComponents}
+              onJump={handleJump}
+              activeSection={activeSection}
             />
-          ))}
-        </div>
 
-        {/* CTA Below Mockup */}
-        {activeTemplate && (
-          <div style={{ textAlign: 'center', marginTop: '40px' }}>
-            <Link
-              to={`/invite/${demoId}?pkg=${selectedPackageId}`}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '12px 24px',
-                background: 'var(--jade)',
-                color: 'white',
-                borderRadius: '100px',
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                transition: 'all 0.2s var(--ease)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 8px 20px rgba(9,124,135,0.25)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
-            >
-              Previsualizar invitación completa →
-            </Link>
+            <div className="gallery__step gallery__step--with-toggle">
+              <span className="gallery__step-num">3</span>
+              <span className="gallery__step-text">
+                <span className="gallery__step-title">Vista previa</span>
+                <span className="gallery__step-hint">Así la verán tus invitados</span>
+              </span>
+
+              <div className="gallery__device-toggle" role="group" aria-label="Tamaño de vista previa">
+                <button
+                  type="button"
+                  className={`device-btn ${device === 'mobile' ? 'device-btn--active' : ''}`}
+                  onClick={() => setDevice('mobile')}
+                  aria-pressed={device === 'mobile'}
+                >
+                  <PhoneDeviceIcon />
+                  <span>Celular</span>
+                </button>
+                <button
+                  type="button"
+                  className={`device-btn ${device === 'desktop' ? 'device-btn--active' : ''}`}
+                  onClick={() => setDevice('desktop')}
+                  aria-pressed={device === 'desktop'}
+                >
+                  <DesktopIcon />
+                  <span>Escritorio</span>
+                </button>
+              </div>
+            </div>
+
+            {activeTemplate && (
+              <>
+                <div className={`gallery__frame gallery__frame--${device}`}>
+                  <div className="gallery__frame-bar" aria-hidden="true">
+                    <span className="gallery__frame-dots"><i /><i /><i /></span>
+                    <span className="gallery__frame-url">nosvemos.mx/invite</span>
+                  </div>
+
+                  <div className="gallery__viewport" ref={viewportRef}>
+                    <InvitationPreview
+                      key={`${activeTemplate.id}-${device}`}
+                      template={activeTemplate}
+                      includedComponents={includedComponents}
+                      sectionRefs={sectionRefs}
+                    />
+                  </div>
+                </div>
+
+                <div className="gallery__cta">
+                  <Link
+                    to={`/invite/${demoId}?pkg=${selectedPackageId}`}
+                    className="btn btn-primary gallery__cta-btn"
+                  >
+                    Abrir invitación completa
+                    <ArrowRightIcon className="gallery__cta-icon" />
+                  </Link>
+                  <p className="gallery__cta-note">
+                    Se abre igual que el enlace que recibirán tus invitados.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </section>
   )

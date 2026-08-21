@@ -1,465 +1,734 @@
+/* =========================================================
+   nosVemos — Plantillas
+   Concepto: Elige (1) → Entiende (2) → Previsualiza (3)
+   ========================================================= */
+
 .gallery {
   padding: 112px 0;
   background: var(--gray-50);
-  position: relative;
 }
 
-.gallery::before {
-  content: '';
+/* Solo lectores de pantalla */
+.sr-only {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  width: 1px;
   height: 1px;
-  background: var(--gray-150);
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* --- Package Indicator Banner --------------------------- */
-.gallery__package-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--jade-bg);
-  border: 1px solid rgba(9,124,135,0.2);
-  border-radius: 100px;
-  padding: 10px 20px;
-  margin: 0 auto 36px;
-  font-size: 0.85rem;
-  color: var(--jade-dark);
-  width: fit-content;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.gallery__package-banner-label { font-weight: 300; opacity: 0.7; }
-.gallery__package-banner-name { font-weight: 600; color: var(--jade); font-size: 0.95rem; }
-.gallery__package-banner-count { opacity: 0.7; font-weight: 300; }
-.gallery__package-banner-change {
-  margin-left: 8px;
-  padding-left: 12px;
-  border-left: 1px solid rgba(9,124,135,0.25);
-  color: var(--jade);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.78rem;
-  transition: opacity 0.2s var(--ease);
-}
-.gallery__package-banner-change:hover { opacity: 0.7; text-decoration: underline; }
-
-/* --- Main Layout ---------------------------------------- */
-.gallery__spotlight {
+/* --- Layout general -------------------------------------- */
+.gallery__layout {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 48px;
+  grid-template-columns: minmax(300px, 400px) 1fr;
+  gap: 40px;
   align-items: start;
 }
 
-/* --- Left Panel (Desktop) ------------------------------- */
-.gallery__panel-left {
+/* --- Encabezado de paso ---------------------------------- */
+.gallery__step {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.gallery__copy {
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
-.gallery__copy-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
+.gallery__step--with-toggle {
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.gallery__step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--jade);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.gallery__step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.gallery__step-title {
+  font-size: 1rem;
   font-weight: 500;
   color: var(--gray-900);
   line-height: 1.3;
 }
 
-.gallery__copy-text {
-  font-size: 0.95rem;
-  color: var(--gray-600);
-  line-height: 1.6;
+.gallery__step-hint {
+  font-size: 0.8rem;
   font-weight: 300;
-}
-
-/* --- Category Filters (Desktop Vertical) --------------- */
-.gallery__filters-desktop {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--white);
-  border: 1px solid var(--gray-150);
-  border-radius: var(--radius-lg);
-  padding: 12px;
-}
-
-.filter-btn {
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  background: transparent;
   color: var(--gray-600);
-  border: none;
-  text-align: left;
-  transition: all 0.22s var(--ease);
-  cursor: pointer;
-}
-
-.filter-btn:hover { color: var(--jade); background: var(--jade-bg); }
-.filter-btn.active { background: var(--jade); color: var(--white); font-weight: 600; }
-
-/* --- Thumbnails Panel (Desktop Vertical) -------------- */
-.gallery__thumbnails-desktop {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--white);
-  border: 1px solid var(--gray-150);
-  border-radius: var(--radius-lg);
-  padding: 12px;
-  max-height: 480px;
-  overflow-y: auto;
-}
-
-.gallery__thumbnails-desktop::-webkit-scrollbar {
-  width: 4px;
-}
-
-.gallery__thumbnails-desktop::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.gallery__thumbnails-desktop::-webkit-scrollbar-thumb {
-  background: var(--gray-300);
-  border-radius: 2px;
-}
-
-.gallery__thumbnails-desktop::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-400);
-}
-
-.gallery__thumbnails-desktop {
-  scrollbar-width: thin;
-  scrollbar-color: var(--gray-300) transparent;
-}
-
-/* --- Template Thumbnail -------------------------------- */
-.gallery__thumbnail {
-  width: 100%;
-  height: 80px;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.gallery__thumbnail:hover { transform: scale(1.02); }
-.gallery__thumbnail.active {
-  border-color: var(--jade);
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(9,124,135,0.2);
-}
-
-.gallery__thumbnail-background {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
-}
-
-.gallery__thumbnail-ornament {
-  font-size: 1.8rem;
-  z-index: 1;
-  line-height: 1;
-}
-
-/* Gradient backgrounds by theme */
-.gallery__thumbnail[data-theme="boda-clasica"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #FFFDF5, #FFF3D0); }
-.gallery__thumbnail[data-theme="boda-bohemio"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #F5F8F0, #EBF3E8); }
-.gallery__thumbnail[data-theme="boda-moderna"] .gallery__thumbnail-background        { background: linear-gradient(135deg, #FAFAFA, #F0F0F0); }
-.gallery__thumbnail[data-theme="quince-rosa"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #FFF5F8, #FFDDE9); }
-.gallery__thumbnail[data-theme="quince-gold"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #FFFCF0, #FFF0C0); }
-.gallery__thumbnail[data-theme="quince-jardin"] .gallery__thumbnail-background       { background: linear-gradient(135deg, #F5FBF0, #DFF5D8); }
-.gallery__thumbnail[data-theme="fiesta"] .gallery__thumbnail-background              { background: linear-gradient(135deg, #FFF8F5, #FFE8D8); }
-.gallery__thumbnail[data-theme="fiesta-jardin"] .gallery__thumbnail-background       { background: linear-gradient(135deg, #FDF5FF, #F0D8FF); }
-.gallery__thumbnail[data-theme="corporativo"] .gallery__thumbnail-background         { background: linear-gradient(135deg, #F5F8FC, #DDE8F4); }
-.gallery__thumbnail[data-theme="corporativo-moderno"] .gallery__thumbnail-background { background: linear-gradient(135deg, #EBF8F9, #C8EEF0); }
-
-/* --- Phone Mockup (Right Panel / Center Mobile) ------- */
-.gallery__phone-shell {
-  width: 280px;
-  height: 560px;
-  border-radius: 36px;
-  background: #1a1a1a;
-  box-shadow:
-    0 0 0 2px #1a1a1a,
-    0 32px 80px rgba(9,124,135,0.18),
-    0 8px 24px rgba(0,0,0,0.22);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-}
-
-/* Notch */
-.gallery__phone-shell::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 20px;
-  background: #000;
-  border-radius: 0 0 20px 20px;
-  z-index: 10;
-}
-
-.gallery__phone-screen {
-  width: 100%;
-  height: 100%;
-  padding-top: 32px;
-  padding-bottom: 32px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-
-.gallery__phone-screen::-webkit-scrollbar {
-  display: none;
-}
-
-.gallery__phone-screen::-webkit-scrollbar-track {
-  display: none;
-}
-
-.gallery__phone-content {
-  width: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100%;
-  text-align: center;
-}
-
-.gallery__phone-content--entering {
-  animation: phoneContentEnter 0.28s var(--ease) both;
-}
-
-@keyframes phoneContentEnter {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.gallery__phone-content-wrapper {
-  width: 100%;
-  padding: 8px 16px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-/* Phone scrollable sections */
-.gallery__phone-section {
-  width: 100%;
-  padding: 18px 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
-}
-
-.gallery__phone-section:first-child {
-  padding-top: 24px;
-}
-
-.gallery__phone-section:last-child {
-  border-bottom: none;
-}
-
-.gallery__phone-section-icon {
-  font-size: 1.5rem;
-  line-height: 1;
-}
-
-.gallery__phone-section-title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.gallery__phone-section-detail {
-  font-size: 0.72rem;
-  font-weight: 300;
-  margin: 0;
-  max-width: 200px;
   line-height: 1.4;
 }
 
-.gallery__phone-countdown-num {
-  font-family: var(--font-display);
+.gallery__step-hint strong { font-weight: 600; color: var(--jade); }
+
+.gallery__change-link {
+  color: var(--jade);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gallery__change-link:hover { color: var(--jade-dark); }
+
+/* --- Filtros de categoría -------------------------------- */
+.gallery__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.filter-btn {
+  /* 44px de alto: cumple el mínimo táctil */
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--gray-150);
+  background: var(--white);
+  color: var(--gray-600);
+  font-size: 0.83rem;
+  font-weight: 500;
+  transition: background 0.22s var(--ease), color 0.22s var(--ease),
+              border-color 0.22s var(--ease);
+}
+
+.filter-btn:hover {
+  border-color: var(--jade-mid);
+  color: var(--jade);
+}
+
+.filter-btn.active {
+  background: var(--jade);
+  border-color: var(--jade);
+  color: #fff;
+}
+
+/* --- Paso 1: tarjetas de plantilla ----------------------- */
+.gallery__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.tpl-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  border: 1.5px solid var(--gray-150);
+  box-shadow: var(--shadow-xs);
+  text-align: left;
+  /* Solo color/sombra en el estado activo: no desplaza el layout */
+  transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease);
+}
+
+.tpl-card:hover {
+  border-color: var(--jade-mid);
+  box-shadow: var(--shadow-sm);
+}
+
+.tpl-card--active {
+  border-color: var(--jade);
+  box-shadow: 0 0 0 3px rgba(9, 124, 135, 0.18), var(--shadow-sm);
+}
+
+.tpl-card:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Mini portada */
+.tpl-card__cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  overflow: hidden;
+}
+
+.tpl-card__ornament {
   font-size: 1.6rem;
-  font-weight: 600;
   line-height: 1;
 }
 
-.gallery__phone-rsvp-btn {
-  display: inline-block;
-  padding: 7px 14px;
-  border-radius: 16px;
-  font-size: 0.7rem;
+.tpl-card__names {
+  font-family: var(--font-display);
+  font-size: 0.84rem;
   font-weight: 500;
-  margin-top: 2px;
-}
-
-.gallery__phone-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  width: 70%;
-  margin-top: 4px;
-}
-
-.gallery__phone-gallery-grid div {
-  aspect-ratio: 1;
-  border-radius: 4px;
-}
-
-/* Home Indicator */
-.gallery__phone-bar {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 4px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 2px;
-}
-
-/* --- Mobile Layout (Filters + Thumbnails Horizontal) -- */
-.gallery__filters-mobile {
-  display: none;
-  flex-direction: row;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-  background: var(--white);
-  border: 1px solid var(--gray-150);
-  border-radius: 100px;
-  padding: 6px;
-  width: fit-content;
-  margin: 0 auto 32px;
-}
-
-.gallery__thumbnails-mobile {
-  display: none;
-  flex-direction: row;
-  gap: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 8px;
-  margin-top: 24px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  justify-content: center;
-}
-
-.gallery__thumbnails-mobile::-webkit-scrollbar {
-  display: none;
-}
-
-.gallery__thumbnail-mobile {
-  width: 56px;
-  height: 88px;
-  border-radius: 8px;
-  border: 2px solid transparent;
+  line-height: 1.25;
+  text-align: center;
+  /* 2 líneas máximo: evita que un nombre largo rompa la tarjeta */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
+}
+
+.tpl-card__date {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: var(--gray-600);
+  text-align: center;
+}
+
+/* Badge "Popular" */
+.tpl-card__badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(14, 36, 38, 0.82);
+  color: #fff;
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Check de selección */
+.tpl-card__check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  flex-shrink: 0;
-  scroll-snap-align: center;
+  background: var(--jade);
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.2s var(--ease), transform 0.24s var(--ease-spring);
 }
 
-.gallery__thumbnail-mobile:hover { transform: scale(1.05); }
-.gallery__thumbnail-mobile.active {
+.tpl-card__check svg { width: 13px; height: 13px; stroke-width: 2.4; }
+
+.tpl-card--active .tpl-card__check { opacity: 1; transform: scale(1); }
+
+/* Nombre y categoría */
+.tpl-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 2px 2px;
+}
+
+.tpl-card__name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+.tpl-card__category {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--gray-600);
+}
+
+/* Fondos por tema */
+.tpl-card[data-theme="boda-clasica"]        .tpl-card__cover { background: linear-gradient(140deg, #FFFDF5, #FFF3D0); }
+.tpl-card[data-theme="boda-bohemio"]        .tpl-card__cover { background: linear-gradient(140deg, #F5F8F0, #EBF3E8); }
+.tpl-card[data-theme="boda-moderna"]        .tpl-card__cover { background: linear-gradient(140deg, #FAFAFA, #F0F0F0); }
+.tpl-card[data-theme="quince-rosa"]         .tpl-card__cover { background: linear-gradient(140deg, #FFF5F8, #FFDDE9); }
+.tpl-card[data-theme="quince-gold"]         .tpl-card__cover { background: linear-gradient(140deg, #FFFCF0, #FFF0C0); }
+.tpl-card[data-theme="quince-jardin"]       .tpl-card__cover { background: linear-gradient(140deg, #F5FBF0, #DFF5D8); }
+.tpl-card[data-theme="fiesta"]              .tpl-card__cover { background: linear-gradient(140deg, #FFF8F5, #FFE8D8); }
+.tpl-card[data-theme="fiesta-jardin"]       .tpl-card__cover { background: linear-gradient(140deg, #FDF5FF, #F0D8FF); }
+.tpl-card[data-theme="corporativo"]         .tpl-card__cover { background: linear-gradient(140deg, #F5F8FC, #DDE8F4); }
+.tpl-card[data-theme="corporativo-moderno"] .tpl-card__cover { background: linear-gradient(140deg, #EBF8F9, #C8EEF0); }
+
+/* --- Paso 2: chips de secciones -------------------------- */
+.gallery__chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.gallery-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--gray-150);
+  background: var(--white);
+  color: var(--gray-900);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease),
+              color 0.2s var(--ease);
+}
+
+.gallery-chip__icon { width: 15px; height: 15px; flex-shrink: 0; }
+
+button.gallery-chip:hover {
+  border-color: var(--jade-mid);
+  color: var(--jade);
+}
+
+button.gallery-chip:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.gallery-chip--active {
+  background: var(--jade);
   border-color: var(--jade);
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(9,124,135,0.2);
+  color: #fff;
+}
+.gallery-chip--active:hover { color: #fff; }
+
+/* Bloqueada: no es interactiva, y el candado explica el porqué
+   (no depende solo del color) */
+.gallery-chip--locked {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--gray-200);
+  color: var(--gray-600);
+  font-weight: 400;
+  cursor: default;
 }
 
-.gallery__thumbnail-mobile .gallery__thumbnail-background {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
+/* --- Selector de dispositivo ----------------------------- */
+.gallery__device-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-left: auto;
+  border-radius: 100px;
+  background: var(--gray-100);
+  border: 1.5px solid var(--gray-150);
 }
 
-.gallery__thumbnail-mobile .gallery__thumbnail-ornament {
+.device-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 100px;
+  color: var(--gray-600);
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease),
+              box-shadow 0.2s var(--ease);
+}
+
+.device-btn svg { width: 15px; height: 15px; }
+
+.device-btn:hover { color: var(--jade); }
+
+.device-btn--active {
+  background: var(--white);
+  color: var(--jade);
+  box-shadow: var(--shadow-xs);
+}
+
+.device-btn:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* --- Paso 3: marco de vista previa ----------------------- */
+.gallery__frame {
+  margin: 0 auto;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  border: 1.5px solid var(--gray-150);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  /* El ancho es lo único que cambia entre celular y escritorio */
+  transition: max-width 0.36s var(--ease);
+}
+
+.gallery__frame--mobile  { max-width: 340px; }
+.gallery__frame--desktop { max-width: 100%; }
+
+/* Barra tipo navegador: da contexto de "esto es un enlace" */
+.gallery__frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-150);
+}
+
+.gallery__frame-dots { display: flex; gap: 5px; }
+.gallery__frame-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray-200);
+}
+
+.gallery__frame-url {
+  font-size: 0.68rem;
+  color: var(--gray-600);
+  letter-spacing: 0.01em;
+}
+
+/* Viewport: en escritorio scrollea dentro; en móvil crece con
+   el contenido para no anidar scrolls (ver media query) */
+.gallery__viewport {
+  max-height: 62vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-200) transparent;
+}
+
+.gallery__viewport::-webkit-scrollbar { width: 5px; }
+.gallery__viewport::-webkit-scrollbar-thumb {
+  background: var(--gray-200);
+  border-radius: 3px;
+}
+
+/* --- Contenido de la invitación -------------------------- */
+.pv {
+  display: flex;
+  flex-direction: column;
+}
+
+/* En escritorio las secciones se acomodan en 2 columnas:
+   el toggle cambia la forma real del contenido, no solo el marco */
+.gallery__frame--desktop .pv {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--gray-150);
+}
+
+.gallery__frame--desktop .pv__section[data-section="hero"] {
+  grid-column: 1 / -1;
+}
+
+/* La portada ocupa la fila completa, así que el resto son N-1 celdas.
+   Si la última queda sola, se estira para no dejar un hueco gris. */
+.gallery__frame--desktop .pv__section:last-child:nth-child(even) {
+  grid-column: 1 / -1;
+}
+
+.pv__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 26px 22px;
+  text-align: center;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-150);
+}
+
+.gallery__frame--desktop .pv__section { border-bottom: none; }
+
+.pv__section:last-child { border-bottom: none; }
+
+.pv__section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pv__section-icon svg { width: 16px; height: 16px; }
+
+.pv__section-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+/* Portada */
+.pv__ornament { font-size: 1.9rem; line-height: 1; }
+
+.pv__names {
+  font-family: var(--font-display);
   font-size: 1.4rem;
-  z-index: 1;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.pv__tagline {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--gray-600);
+  max-width: 34ch;
+}
+
+.pv__date {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Genéricos */
+.pv__eyebrow {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+.pv__title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.pv__body {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--gray-600);
+  max-width: 36ch;
+}
+
+.pv__body--muted { color: var(--gray-400); font-size: 0.74rem; }
+
+.pv__quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--gray-900);
+  line-height: 1.6;
+  max-width: 32ch;
+}
+
+/* Cuenta regresiva */
+.pv__countdown { display: flex; gap: 14px; }
+
+.pv__countdown-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.pv__countdown-cell strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
   line-height: 1;
+  /* Cifras tabulares: el contador no salta al cambiar */
+  font-variant-numeric: tabular-nums;
 }
 
-/* --- Responsive ----------------------------------------- */
-@media (max-width: 1200px) {
-  .gallery__spotlight { gap: 32px; grid-template-columns: 1fr 1.3fr; }
+.pv__countdown-cell em {
+  font-style: normal;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-400);
 }
 
-@media (max-width: 900px) {
-  .gallery__spotlight {
-    display: block;
+/* RSVP */
+.pv__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 18px;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* Galería */
+.pv__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  width: 100%;
+  max-width: 220px;
+}
+
+.pv__grid span {
+  aspect-ratio: 1;
+  border-radius: 5px;
+}
+
+/* Música */
+.pv__track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.pv__track-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gray-150);
+  overflow: hidden;
+}
+
+.pv__track-bar span { display: block; height: 100%; border-radius: 2px; }
+
+.pv__track em {
+  font-style: normal;
+  font-size: 0.7rem;
+  color: var(--gray-600);
+}
+
+/* --- CTA -------------------------------------------------- */
+.gallery__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.gallery__cta-btn { background: var(--jade); color: #fff; }
+.gallery__cta-btn:hover { background: var(--jade-dark); color: #fff; }
+
+.gallery__cta-icon { width: 16px; height: 16px; }
+
+.gallery__cta-note {
+  font-size: 0.76rem;
+  font-weight: 300;
+  color: var(--gray-600);
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+/* Escritorio grande: el preview acompaña al scroll */
+@media (min-width: 1024px) {
+  .gallery__stage {
+    position: sticky;
+    top: 88px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .gallery__layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
   }
 
-  .gallery__panel-left { display: none; }
-  .gallery__filters-desktop { display: none; }
-  .gallery__thumbnails-desktop { display: none; }
-
-  .gallery__filters-mobile { display: flex; margin-bottom: 28px; }
-  .gallery__thumbnails-mobile { display: flex; }
-
-  .gallery__phone-shell {
-    width: 260px;
-    height: 520px;
-    margin-bottom: 24px;
+  /* Fila horizontal con snap: se recorre con el pulgar */
+  .gallery__cards {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Sangrado a los bordes de la pantalla */
+    margin: 0 -24px;
+    padding: 4px 24px 12px;
+    scrollbar-width: none;
   }
 
-  .gallery__copy { display: none; }
+  .gallery__cards::-webkit-scrollbar { display: none; }
+
+  .tpl-card {
+    flex: 0 0 152px;
+    scroll-snap-align: center;
+  }
+
+  /* Chips en una sola línea deslizable */
+  .gallery__chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 -24px 4px;
+    padding: 2px 24px 10px;
+    scrollbar-width: none;
+  }
+
+  .gallery__chips::-webkit-scrollbar { display: none; }
+
+  /* Sin scroll anidado: la página lleva el scroll del preview */
+  .gallery__viewport {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .gallery__frame--desktop { max-width: 100%; }
+  .gallery__frame--desktop .pv { grid-template-columns: 1fr; }
+
+  .gallery__step--with-toggle { margin-top: 24px; }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .gallery { padding: 80px 0; }
 
-  .gallery__filters-mobile { padding: 5px; gap: 4px; }
-  .filter-btn { padding: 6px 12px; font-size: 0.75rem; }
-
-  .gallery__phone-shell {
-    width: 240px;
-    height: 460px;
+  .gallery__cards,
+  .gallery__chips {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
-  .gallery__phone-screen { padding-top: 28px; padding-bottom: 28px; }
+  .gallery__device-toggle {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 12px;
+  }
 
-  .gallery__phone-content-wrapper { padding: 4px 12px 32px; }
-  .gallery__phone-ornament { font-size: 32px; }
-  .gallery__phone-names { font-size: 1.25rem; }
-  .gallery__phone-tagline { font-size: 0.75rem; }
+  .device-btn { flex: 1; justify-content: center; }
 
-  .gallery__thumbnail-mobile { width: 48px; height: 72px; }
-  .gallery__thumbnail-mobile .gallery__thumbnail-ornament { font-size: 1.1rem; }
+  .gallery__frame--mobile { max-width: 100%; }
+
+  .pv__section { padding: 22px 18px; }
+  .pv__names { font-size: 1.25rem; }
+}
+
+/* Respeta la preferencia del sistema */
+@media (prefers-reduced-motion: reduce) {
+  .gallery__frame,
+  .tpl-card,
+  .tpl-card__check,
+  .gallery-chip,
+  .device-btn,
+  .filter-btn {
+    transition: none;
+  }
 }
