@@ -32,7 +32,9 @@ export default function Navbar() {
           Plantillas
         </button>
         <a href="#" className="navbar__link">Cómo Funciona</a>
-        <a href="#" className="navbar__link">Contacto</a>
+        <button className="navbar__link" onClick={() => scrollTo('contact')}>
+          Contacto
+        </button>
       </div>
 
       <div className="navbar__actions">

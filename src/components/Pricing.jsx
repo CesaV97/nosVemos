@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { packages, COMPONENT_METADATA, COMPONENT_ORDER } from '../data/mockData'
 import { usePackageStore } from '../stores/packageStore'
+import { contactInfo } from '../data/contactInfo'
 import './Pricing.css'
 
 function PackageCard({ pkg, delay, visible }) {
@@ -189,9 +190,11 @@ export default function Pricing() {
         >
           ¿Tienes dudas? Escríbenos por{' '}
           <a
-            href="#"
+            href={contactInfo.whatsapp.href}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              color: 'var(--gold-dark)',
+              color: 'var(--jade)',
               textDecoration: 'underline',
               textUnderlineOffset: '3px',
             }}

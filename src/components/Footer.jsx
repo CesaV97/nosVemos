@@ -1,3 +1,4 @@
+import { contactInfo } from '../data/contactInfo'
 import './Footer.css'
 
 export default function Footer() {
@@ -37,7 +38,7 @@ export default function Footer() {
               <li><a href="#">Cómo Funciona</a></li>
               <li><a href="#">Precios</a></li>
               <li><a href="#">Preguntas Frecuentes</a></li>
-              <li><a href="#">Contacto</a></li>
+              <li><a href="#contact">Contacto</a></li>
             </ul>
           </div>
 
@@ -58,13 +59,31 @@ export default function Footer() {
           </p>
 
           <div className="footer__social">
-            <a href="#" className="footer__social-link" aria-label="Instagram">
+            <a
+              href={contactInfo.instagram.href}
+              className="footer__social-link"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               IG
             </a>
-            <a href="#" className="footer__social-link" aria-label="Facebook">
+            <a
+              href={contactInfo.facebook.href}
+              className="footer__social-link"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               FB
             </a>
-            <a href="#" className="footer__social-link" aria-label="WhatsApp">
+            <a
+              href={contactInfo.whatsapp.href}
+              className="footer__social-link"
+              aria-label="WhatsApp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               WA
             </a>
           </div>
