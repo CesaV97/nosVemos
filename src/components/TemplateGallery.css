@@ -1,6 +1,6 @@
 /* =========================================================
    nosVemos — Plantillas
-   Concepto: Elige (1) → Entiende (2) → Previsualiza (3)
+   Concepto: carrusel de una portada a la vez
    ========================================================= */
 
 .gallery {
@@ -8,101 +8,24 @@
   background: var(--gray-50);
 }
 
-/* Solo lectores de pantalla */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* --- Layout general -------------------------------------- */
-.gallery__layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 400px) 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-/* --- Encabezado de paso ---------------------------------- */
-.gallery__step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.gallery__step--with-toggle {
-  flex-wrap: wrap;
-  margin-top: 28px;
-}
-
-.gallery__step-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--jade);
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.gallery__step-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.gallery__step-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--gray-900);
-  line-height: 1.3;
-}
-
-.gallery__step-hint {
-  font-size: 0.8rem;
-  font-weight: 300;
-  color: var(--gray-600);
-  line-height: 1.4;
-}
-
-.gallery__step-hint strong { font-weight: 600; color: var(--jade); }
-
-.gallery__change-link {
-  color: var(--jade);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.gallery__change-link:hover { color: var(--jade-dark); }
-
-/* --- Filtros de categoría -------------------------------- */
+/* --- Categorías ------------------------------------------ */
 .gallery__filters {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
 }
 
 .filter-btn {
-  /* 44px de alto: cumple el mínimo táctil */
+  /* 44px de alto: mínimo táctil */
   min-height: 44px;
-  padding: 0 16px;
+  padding: 0 18px;
   border-radius: 100px;
   border: 1.5px solid var(--gray-150);
   background: var(--white);
   color: var(--gray-600);
-  font-size: 0.83rem;
+  font-size: 0.85rem;
   font-weight: 500;
   transition: background 0.22s var(--ease), color 0.22s var(--ease),
               border-color 0.22s var(--ease);
@@ -119,500 +42,262 @@
   color: #fff;
 }
 
-/* --- Paso 1: tarjetas de plantilla ----------------------- */
-.gallery__cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.tpl-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  border-radius: var(--radius-md);
-  background: var(--white);
-  border: 1.5px solid var(--gray-150);
-  box-shadow: var(--shadow-xs);
-  text-align: left;
-  /* Solo color/sombra en el estado activo: no desplaza el layout */
-  transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease);
-}
-
-.tpl-card:hover {
-  border-color: var(--jade-mid);
-  box-shadow: var(--shadow-sm);
-}
-
-.tpl-card--active {
-  border-color: var(--jade);
-  box-shadow: 0 0 0 3px rgba(9, 124, 135, 0.18), var(--shadow-sm);
-}
-
-.tpl-card:focus-visible {
+.filter-btn:focus-visible {
   outline: 3px solid var(--cyan);
   outline-offset: 2px;
 }
 
-/* Mini portada */
-.tpl-card__cover {
+/* --- Contador -------------------------------------------- */
+.carousel__counter {
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+  /* Cifras tabulares: el contador no salta al pasar de 9 a 10 */
+  font-variant-numeric: tabular-nums;
+}
+
+.carousel__counter span {
+  color: var(--gray-200);
+  margin: 0 2px;
+}
+
+/* --- Carrusel -------------------------------------------- */
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.carousel:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 8px;
+  border-radius: var(--radius-lg);
+}
+
+/* Flechas */
+.carousel__arrow {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border: 1.5px solid var(--gray-150);
+  color: var(--jade);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.22s var(--ease), color 0.22s var(--ease),
+              border-color 0.22s var(--ease), opacity 0.22s var(--ease);
+}
+
+.carousel__arrow svg { width: 20px; height: 20px; stroke-width: 2; }
+
+.carousel__arrow:hover:not(:disabled) {
+  background: var(--jade);
+  border-color: var(--jade);
+  color: #fff;
+}
+
+.carousel__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+  box-shadow: none;
+}
+
+.carousel__arrow:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Pista: el scroll nativo con snap da el swipe en celular */
+.carousel__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  width: 100%;
+  max-width: 420px;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carousel__track::-webkit-scrollbar { display: none; }
+
+.carousel__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  /* Deja aire para la sombra de la portada */
+  padding: 6px;
+}
+
+/* --- Portada --------------------------------------------- */
+.cover {
   position: relative;
+  height: 100%;
+  min-height: 420px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  aspect-ratio: 3 / 4;
-  border-radius: var(--radius-sm);
-  padding: 12px 10px;
-  overflow: hidden;
+  gap: 10px;
+
+  padding: 44px 28px;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--gray-150);
+  box-shadow: var(--shadow-md);
+  text-align: center;
 }
 
-.tpl-card__ornament {
-  font-size: 1.6rem;
+.cover__ornament {
+  font-size: 2.6rem;
   line-height: 1;
+  margin-bottom: 2px;
 }
 
-.tpl-card__names {
+.cover__names {
   font-family: var(--font-display);
-  font-size: 0.84rem;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
   font-weight: 500;
-  line-height: 1.25;
-  text-align: center;
-  /* 2 líneas máximo: evita que un nombre largo rompa la tarjeta */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
-.tpl-card__date {
-  font-size: 0.6rem;
-  font-weight: 400;
+.cover__tagline {
+  font-size: 0.86rem;
+  font-weight: 300;
   color: var(--gray-600);
-  text-align: center;
+  line-height: 1.6;
+  max-width: 30ch;
 }
 
-/* Badge "Popular" */
-.tpl-card__badge {
+.cover__rule {
+  width: 42px;
+  height: 1.5px;
+  border-radius: 1px;
+  opacity: 0.5;
+  margin: 6px 0;
+}
+
+.cover__date {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.cover__place {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--gray-600);
+  max-width: 28ch;
+}
+
+.cover__badge {
   position: absolute;
-  top: 6px;
-  left: 6px;
-  padding: 3px 8px;
+  top: 16px;
+  right: 16px;
+  padding: 4px 11px;
   border-radius: 100px;
   background: rgba(14, 36, 38, 0.82);
   color: #fff;
-  font-size: 0.56rem;
+  font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* Check de selección */
-.tpl-card__check {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+/* Fondos por tema */
+.carousel__slide[data-theme="boda-clasica"]        .cover { background: linear-gradient(150deg, #FFFDF5, #FFF3D0); }
+.carousel__slide[data-theme="boda-bohemio"]        .cover { background: linear-gradient(150deg, #F5F8F0, #EBF3E8); }
+.carousel__slide[data-theme="boda-moderna"]        .cover { background: linear-gradient(150deg, #FAFAFA, #F0F0F0); }
+.carousel__slide[data-theme="quince-rosa"]         .cover { background: linear-gradient(150deg, #FFF5F8, #FFDDE9); }
+.carousel__slide[data-theme="quince-gold"]         .cover { background: linear-gradient(150deg, #FFFCF0, #FFF0C0); }
+.carousel__slide[data-theme="quince-jardin"]       .cover { background: linear-gradient(150deg, #F5FBF0, #DFF5D8); }
+.carousel__slide[data-theme="fiesta"]              .cover { background: linear-gradient(150deg, #FFF8F5, #FFE8D8); }
+.carousel__slide[data-theme="fiesta-jardin"]       .cover { background: linear-gradient(150deg, #FDF5FF, #F0D8FF); }
+.carousel__slide[data-theme="corporativo"]         .cover { background: linear-gradient(150deg, #F5F8FC, #DDE8F4); }
+.carousel__slide[data-theme="corporativo-moderno"] .cover { background: linear-gradient(150deg, #EBF8F9, #C8EEF0); }
+
+/* --- Puntos ---------------------------------------------- */
+.carousel__dots {
   display: flex;
-  align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-top: 18px;
+}
+
+/* El punto se ve pequeño, pero el botón mide 24px para poder tocarlo */
+.carousel__dot {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  position: relative;
+}
+
+.carousel__dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 100px;
+  transform: translate(-50%, -50%);
+  background: var(--gray-200);
+  transition: width 0.26s var(--ease), background 0.26s var(--ease);
+}
+
+.carousel__dot:hover::after { background: var(--jade-mid); }
+
+.carousel__dot--active::after {
+  width: 20px;
   background: var(--jade);
-  color: #fff;
-  opacity: 0;
-  transform: scale(0.7);
-  transition: opacity 0.2s var(--ease), transform 0.24s var(--ease-spring);
 }
 
-.tpl-card__check svg { width: 13px; height: 13px; stroke-width: 2.4; }
-
-.tpl-card--active .tpl-card__check { opacity: 1; transform: scale(1); }
-
-/* Nombre y categoría */
-.tpl-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: 0 2px 2px;
+.carousel__dot:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 0;
 }
 
-.tpl-card__name {
-  font-size: 0.82rem;
+/* --- Nombre de la plantilla ------------------------------ */
+.gallery__caption {
+  text-align: center;
+  margin-top: 18px;
+  /* Altura fija: el bloque no salta al cambiar de plantilla */
+  min-height: 68px;
+}
+
+.gallery__caption-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
   font-weight: 500;
   color: var(--gray-900);
   line-height: 1.3;
 }
 
-.tpl-card__category {
-  font-size: 0.68rem;
-  font-weight: 400;
+.gallery__caption-meta {
+  font-size: 0.84rem;
+  font-weight: 300;
   color: var(--gray-600);
-}
-
-/* Fondos por tema */
-.tpl-card[data-theme="boda-clasica"]        .tpl-card__cover { background: linear-gradient(140deg, #FFFDF5, #FFF3D0); }
-.tpl-card[data-theme="boda-bohemio"]        .tpl-card__cover { background: linear-gradient(140deg, #F5F8F0, #EBF3E8); }
-.tpl-card[data-theme="boda-moderna"]        .tpl-card__cover { background: linear-gradient(140deg, #FAFAFA, #F0F0F0); }
-.tpl-card[data-theme="quince-rosa"]         .tpl-card__cover { background: linear-gradient(140deg, #FFF5F8, #FFDDE9); }
-.tpl-card[data-theme="quince-gold"]         .tpl-card__cover { background: linear-gradient(140deg, #FFFCF0, #FFF0C0); }
-.tpl-card[data-theme="quince-jardin"]       .tpl-card__cover { background: linear-gradient(140deg, #F5FBF0, #DFF5D8); }
-.tpl-card[data-theme="fiesta"]              .tpl-card__cover { background: linear-gradient(140deg, #FFF8F5, #FFE8D8); }
-.tpl-card[data-theme="fiesta-jardin"]       .tpl-card__cover { background: linear-gradient(140deg, #FDF5FF, #F0D8FF); }
-.tpl-card[data-theme="corporativo"]         .tpl-card__cover { background: linear-gradient(140deg, #F5F8FC, #DDE8F4); }
-.tpl-card[data-theme="corporativo-moderno"] .tpl-card__cover { background: linear-gradient(140deg, #EBF8F9, #C8EEF0); }
-
-/* --- Paso 2: chips de secciones -------------------------- */
-.gallery__chips {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 4px;
-  padding: 0;
-}
-
-.gallery-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 100px;
-  border: 1.5px solid var(--gray-150);
-  background: var(--white);
-  color: var(--gray-900);
-  font-size: 0.78rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background 0.2s var(--ease), border-color 0.2s var(--ease),
-              color 0.2s var(--ease);
-}
-
-.gallery-chip__icon { width: 15px; height: 15px; flex-shrink: 0; }
-
-button.gallery-chip:hover {
-  border-color: var(--jade-mid);
-  color: var(--jade);
-}
-
-button.gallery-chip:focus-visible {
-  outline: 3px solid var(--cyan);
-  outline-offset: 2px;
-}
-
-.gallery-chip--active {
-  background: var(--jade);
-  border-color: var(--jade);
-  color: #fff;
-}
-.gallery-chip--active:hover { color: #fff; }
-
-/* Bloqueada: no es interactiva, y el candado explica el porqué
-   (no depende solo del color) */
-.gallery-chip--locked {
-  background: transparent;
-  border-style: dashed;
-  border-color: var(--gray-200);
-  color: var(--gray-600);
-  font-weight: 400;
-  cursor: default;
-}
-
-/* --- Selector de dispositivo ----------------------------- */
-.gallery__device-toggle {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px;
+  margin-top: 3px;
+  max-width: 44ch;
   margin-left: auto;
-  border-radius: 100px;
-  background: var(--gray-100);
-  border: 1.5px solid var(--gray-150);
-}
-
-.device-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 0 14px;
-  border-radius: 100px;
-  color: var(--gray-600);
-  font-size: 0.78rem;
-  font-weight: 500;
-  transition: background 0.2s var(--ease), color 0.2s var(--ease),
-              box-shadow 0.2s var(--ease);
-}
-
-.device-btn svg { width: 15px; height: 15px; }
-
-.device-btn:hover { color: var(--jade); }
-
-.device-btn--active {
-  background: var(--white);
-  color: var(--jade);
-  box-shadow: var(--shadow-xs);
-}
-
-.device-btn:focus-visible {
-  outline: 3px solid var(--cyan);
-  outline-offset: 2px;
-}
-
-/* --- Paso 3: marco de vista previa ----------------------- */
-.gallery__frame {
-  margin: 0 auto;
-  width: 100%;
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  border: 1.5px solid var(--gray-150);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-  /* El ancho es lo único que cambia entre celular y escritorio */
-  transition: max-width 0.36s var(--ease);
-}
-
-.gallery__frame--mobile  { max-width: 340px; }
-.gallery__frame--desktop { max-width: 100%; }
-
-/* Barra tipo navegador: da contexto de "esto es un enlace" */
-.gallery__frame-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  background: var(--gray-100);
-  border-bottom: 1px solid var(--gray-150);
-}
-
-.gallery__frame-dots { display: flex; gap: 5px; }
-.gallery__frame-dots i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gray-200);
-}
-
-.gallery__frame-url {
-  font-size: 0.68rem;
-  color: var(--gray-600);
-  letter-spacing: 0.01em;
-}
-
-/* Viewport: en escritorio scrollea dentro; en móvil crece con
-   el contenido para no anidar scrolls (ver media query) */
-.gallery__viewport {
-  max-height: 62vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gray-200) transparent;
-}
-
-.gallery__viewport::-webkit-scrollbar { width: 5px; }
-.gallery__viewport::-webkit-scrollbar-thumb {
-  background: var(--gray-200);
-  border-radius: 3px;
-}
-
-/* --- Contenido de la invitación -------------------------- */
-.pv {
-  display: flex;
-  flex-direction: column;
-}
-
-/* En escritorio las secciones se acomodan en 2 columnas:
-   el toggle cambia la forma real del contenido, no solo el marco */
-.gallery__frame--desktop .pv {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--gray-150);
-}
-
-.gallery__frame--desktop .pv__section[data-section="hero"] {
-  grid-column: 1 / -1;
-}
-
-/* La portada ocupa la fila completa, así que el resto son N-1 celdas.
-   Si la última queda sola, se estira para no dejar un hueco gris. */
-.gallery__frame--desktop .pv__section:last-child:nth-child(even) {
-  grid-column: 1 / -1;
-}
-
-.pv__section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 26px 22px;
-  text-align: center;
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-150);
-}
-
-.gallery__frame--desktop .pv__section { border-bottom: none; }
-
-.pv__section:last-child { border-bottom: none; }
-
-.pv__section-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.pv__section-icon svg { width: 16px; height: 16px; }
-
-.pv__section-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  width: 100%;
-}
-
-/* Portada */
-.pv__ornament { font-size: 1.9rem; line-height: 1; }
-
-.pv__names {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.pv__tagline {
-  font-size: 0.78rem;
-  font-weight: 300;
-  color: var(--gray-600);
-  max-width: 34ch;
-}
-
-.pv__date {
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-/* Genéricos */
-.pv__eyebrow {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-}
-
-.pv__title {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--gray-900);
-}
-
-.pv__body {
-  font-size: 0.8rem;
-  font-weight: 300;
-  color: var(--gray-600);
-  max-width: 36ch;
-}
-
-.pv__body--muted { color: var(--gray-400); font-size: 0.74rem; }
-
-.pv__quote {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--gray-900);
-  line-height: 1.6;
-  max-width: 32ch;
-}
-
-/* Cuenta regresiva */
-.pv__countdown { display: flex; gap: 14px; }
-
-.pv__countdown-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-}
-
-.pv__countdown-cell strong {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 1;
-  /* Cifras tabulares: el contador no salta al cambiar */
-  font-variant-numeric: tabular-nums;
-}
-
-.pv__countdown-cell em {
-  font-style: normal;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-}
-
-/* RSVP */
-.pv__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 36px;
-  padding: 0 18px;
-  border-radius: 100px;
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 500;
-}
-
-/* Galería */
-.pv__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  width: 100%;
-  max-width: 220px;
-}
-
-.pv__grid span {
-  aspect-ratio: 1;
-  border-radius: 5px;
-}
-
-/* Música */
-.pv__track {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  width: 100%;
-  max-width: 200px;
-}
-
-.pv__track-bar {
-  width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--gray-150);
-  overflow: hidden;
-}
-
-.pv__track-bar span { display: block; height: 100%; border-radius: 2px; }
-
-.pv__track em {
-  font-style: normal;
-  font-size: 0.7rem;
-  color: var(--gray-600);
+  margin-right: auto;
+  line-height: 1.5;
 }
 
 /* --- CTA -------------------------------------------------- */
@@ -620,8 +305,8 @@ button.gallery-chip:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -631,104 +316,82 @@ button.gallery-chip:focus-visible {
 .gallery__cta-icon { width: 16px; height: 16px; }
 
 .gallery__cta-note {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 300;
   color: var(--gray-600);
 }
+
+.gallery__cta-note strong { font-weight: 600; color: var(--jade); }
+
+.gallery__change-link {
+  color: var(--jade);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gallery__change-link:hover { color: var(--jade-dark); }
 
 /* =========================================================
    Responsive
    ========================================================= */
 
-/* Escritorio grande: el preview acompaña al scroll */
-@media (min-width: 1024px) {
-  .gallery__stage {
-    position: sticky;
-    top: 88px;
-  }
-}
-
-@media (max-width: 1023px) {
-  .gallery__layout {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-
-  /* Fila horizontal con snap: se recorre con el pulgar */
-  .gallery__cards {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    /* Sangrado a los bordes de la pantalla */
-    margin: 0 -24px;
-    padding: 4px 24px 12px;
-    scrollbar-width: none;
-  }
-
-  .gallery__cards::-webkit-scrollbar { display: none; }
-
-  .tpl-card {
-    flex: 0 0 152px;
-    scroll-snap-align: center;
-  }
-
-  /* Chips en una sola línea deslizable */
-  .gallery__chips {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    margin: 0 -24px 4px;
-    padding: 2px 24px 10px;
-    scrollbar-width: none;
-  }
-
-  .gallery__chips::-webkit-scrollbar { display: none; }
-
-  /* Sin scroll anidado: la página lleva el scroll del preview */
-  .gallery__viewport {
-    max-height: none;
-    overflow-y: visible;
-  }
-
-  .gallery__frame--desktop { max-width: 100%; }
-  .gallery__frame--desktop .pv { grid-template-columns: 1fr; }
-
-  .gallery__step--with-toggle { margin-top: 24px; }
-}
-
-@media (max-width: 640px) {
+/* Celular y tablet: se pasa con el pulgar, las flechas estorban */
+@media (max-width: 767px) {
   .gallery { padding: 80px 0; }
 
-  .gallery__cards,
-  .gallery__chips {
+  .carousel__arrow { display: none; }
+
+  .carousel { gap: 0; }
+
+  /* La pista llega a los bordes de la pantalla */
+  .carousel__track {
+    max-width: none;
+    margin: 0 -24px;
+    padding: 0 24px;
+  }
+
+  .carousel__slide {
+    /* Se asoma la siguiente portada: indica que hay más */
+    flex-basis: 86%;
+    padding: 6px 5px;
+  }
+
+  .cover {
+    min-height: 380px;
+    padding: 36px 22px;
+    border-radius: var(--radius-lg);
+  }
+
+  .gallery__filters {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    margin: 0 -24px 24px;
+    padding: 0 24px 8px;
+    scrollbar-width: none;
+  }
+
+  .gallery__filters::-webkit-scrollbar { display: none; }
+
+  .filter-btn { flex-shrink: 0; }
+}
+
+@media (max-width: 480px) {
+  .carousel__track,
+  .gallery__filters {
     margin-left: -16px;
     margin-right: -16px;
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .gallery__device-toggle {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  .device-btn { flex: 1; justify-content: center; }
-
-  .gallery__frame--mobile { max-width: 100%; }
-
-  .pv__section { padding: 22px 18px; }
-  .pv__names { font-size: 1.25rem; }
+  .cover { min-height: 340px; padding: 30px 18px; }
+  .gallery__caption-name { font-size: 1.2rem; }
 }
 
 /* Respeta la preferencia del sistema */
 @media (prefers-reduced-motion: reduce) {
-  .gallery__frame,
-  .tpl-card,
-  .tpl-card__check,
-  .gallery-chip,
-  .device-btn,
-  .filter-btn {
-    transition: none;
-  }
+  .carousel__track { scroll-behavior: auto; }
+  .carousel__dot::after,
+  .carousel__arrow,
+  .filter-btn { transition: none; }
 }
