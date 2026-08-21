@@ -1,4 +1,9 @@
 import { contactInfo } from '../data/contactInfo'
+import {
+  WhatsAppIcon,
+  InstagramIcon,
+  FacebookIcon,
+} from './icons/SocialIcons'
 import './Footer.css'
 
 export default function Footer() {
@@ -66,7 +71,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              IG
+              <InstagramIcon />
             </a>
             <a
               href={contactInfo.facebook.href}
@@ -75,7 +80,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              FB
+              <FacebookIcon />
             </a>
             <a
               href={contactInfo.whatsapp.href}
@@ -84,7 +89,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              WA
+              <WhatsAppIcon />
             </a>
           </div>
         </div>
